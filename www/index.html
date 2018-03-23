@@ -1,0 +1,45 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <script src="../node_modules/jquery-mobile/js/jquery.mobile.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="js/index.js" async></script>
+    <title>Sober Driver</title>
+</head>
+<body>
+<div class="bg"></div>
+<div class="reg_block" id="reg_block">
+    <form id="registration">
+        <input type="text" id="first_name" placeholder="Имя">
+        <span id="first_name_err"></span>
+
+        <input type="text" id="second_name" placeholder="Фамилия">
+        <span id="second_name_err"></span>
+
+        <input type="text" id="birthday" placeholder="Дата рождения" maxlength="10">
+        <span id="birthday_err"></span>
+
+        <input type="text" id="passport" placeholder="Паспорт" maxlength="10">
+        <span id="passport_err"></span>
+
+        <input type="text" id="driver_license" placeholder="Номер прав" maxlength="10">
+        <span id="driver_license_err"></span>
+
+        <input type="text" id="phone_number" placeholder="Номер телефона" maxlength="11">
+        <span id="phone_number_err"></span>
+
+        <input type="password" id="password" placeholder="Пароль">
+        <span id="password_err"></span>
+
+        <input id="reg_button" type="button" value="Зарегестрироваться">
+    </form>
+</div>
+</body>
+</html>
