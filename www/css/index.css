@@ -21,7 +21,7 @@ body {
     z-index: 99;
 }
 
-.RegBlock
+.reg_block
 {
 
     display: flex;
@@ -32,13 +32,13 @@ body {
     height: 100%;
 
 }
-#regButton{
+#reg_button{
     background: black !important;
     color: lightgray;
 
 
 }
-#phoneNumber, #password, #regButton, #driverLicense, #firstname, #passport, #birthday, #secondname
+#phone_number, #password, #reg_button, #driver_license, #first_name, #passport, #birthday, #second_name
 {
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.7);

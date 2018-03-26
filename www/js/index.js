@@ -1,61 +1,63 @@
-jQuery(document).ready(function () {
-    $("#phoneNumber").mask("+7(000)-000-00-00");
-    $("#birthday").mask("0000-00-00");
+$(document).ready(function () {
+    var phone_number = $("#phone_number");
+    var birthday = $("#birthday");
+    phone_number.mask("+7(000)-000-00-00");
+    birthday.mask("0000-00-00");
 
-    $("#phoneNumber").blur(function () {
+    phone_number.blur(function () {
 
         if ($(this).val().length === 17) {
-            $("#phoneNumberErr").text(' ');
+            $("#phone_number_err").text(' ');
             $(this).css({'border': '1px solid #569b44'});
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#phoneNumberErr").text('Введен не полный номер');
+            $("#phone_number_err").text('Введен не полный номер');
         }
     });
 
-    $("#birthday").blur(function () {
+    birthday.blur(function () {
 
         if ($(this).val().length === 10) {
-            $("#birthdayErr").text(' ');
+            $("#birthday_err").text(' ');
             $(this).css({'border': '1px solid #569b44'});
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#birthdayErr").text('Введена не полная дата');
+            $("#birthday_err").text('Введена не полная дата');
         }
     });
 
-    $("#firstname").blur(function () {
+    $("#first_name").blur(function () {
         if ($(this).val() !== '') {
             var pattern = /^[a-zа-яё]+$/i;
             if (pattern.test($(this).val())) {
                 $(this).css({'border': '1px solid #569b44'});
-                $("#firstnameErr").text(' ');
+                $("#first_name_err").text(' ');
             } else {
                 $(this).css({'border': '1px solid #ff0000'});
-                $("#firstnameErr").text('Не верно');
+                $("#first_name_err").text('Не верно');
             }
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#firstnameErr").text('Поле имени не должно быть пустым');
+            $("#first_name_err").text('Поле имени не должно быть пустым');
         }
     });
-    $("#secondname").blur(function () {
+    $("#second_name").blur(function () {
         if ($(this).val() !== '') {
             var pattern = /^[a-zа-яё]+$/i;
             if (pattern.test($(this).val())) {
                 $(this).css({'border': '1px solid #569b44'});
-                $("#secondnameErr").text(' ');
+                $("#second_name_err").text(' ');
             } else {
                 $(this).css({'border': '1px solid #ff0000'});
-                $("#secondnameErr").text('Не верно');
+                $("#second_name_err").text('Не верно');
             }
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#secondnameErr").text('Поле фамилии не должно быть пустым');
+            $("#second_name_err").text('Поле фамилии не должно быть пустым');
         }
 
     });
@@ -64,15 +66,15 @@ jQuery(document).ready(function () {
             var pattern = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/;
             if (pattern.test($(this).val())) {
                 $(this).css({'border': '1px solid #569b44'});
-                $("#passwordErr").text(' ');
+                $("#password_err").text(' ');
             } else {
                 $(this).css({'border': '1px solid #ff0000'});
-                $("#passwordErr").text('Не верно');
+                $("#password_err").text('Не верно');
             }
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#passwordErr").text('Поле пароля не должно быть пустым');
+            $("#password_err").text('Поле пароля не должно быть пустым');
         }
     });
     $("#passport").blur(function () {
@@ -80,38 +82,38 @@ jQuery(document).ready(function () {
             var pattern = /\d{10}$/;
             if (pattern.test($(this).val())) {
                 $(this).css({'border': '1px solid #569b44'});
-                $("#passportErr").text(' ');
+                $("#passport_err").text(' ');
             } else {
                 $(this).css({'border': '1px solid #ff0000'});
-                $("#passportErr").text('Не верно');
+                $("#passport_err").text('Не верно');
             }
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#passportErr").text('Поле паспорта не должно быть пустым');
+            $("#passport_err").text('Поле паспорта не должно быть пустым');
         }
     });
-    $("#driverLicense").blur(function () {
+    $("#driver_license").blur(function () {
         if ($(this).val() !== '') {
             var pattern = /\d{10}$/;
             if (pattern.test($(this).val())) {
                 $(this).css({'border': '1px solid #569b44'});
-                $("#driverLicenseErr").text(' ');
+                $("#driver_license_err").text(' ');
             } else {
                 $(this).css({'border': '1px solid #ff0000'});
-                $("#driverLicenseErr").text('Не верно');
+                $("#driver_license_err").text('Не верно');
             }
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#driverLicenseErr").text('Поле водительских прав не должно быть пустым');
+            $("#driver_license_err").text('Поле водительских прав не должно быть пустым');
         }
     });
 
 });
 
-$("#regButton").click(function () {
-    $("#RegBlock span").each(function () {
+$("#reg_button").click(function () {
+    $("#reg_block span").each(function () {
         if ($(this).text() !== ' ') {
             alert("Неверные данные");
             return false;
@@ -122,15 +124,15 @@ $("#regButton").click(function () {
         }
 
         else {
-            $("#phoneNumber").unmask();
+            phone_number.unmask();
 
             var jsonform = {
-                'first_name': $("#firstname").val(),
-                'second_name': $("#secondname").val(),
+                'first_name': $("#first_name").val(),
+                'second_name': $("#second_name").val(),
                 'birthday': $("#birthday").val(),
                 'passport': $("#passport").val(),
-                'driver_license': $("#driverLicense").val(),
-                'phone': "+7"+$("#phoneNumber").val(),
+                'driver_license': $("#driver_license").val(),
+                'phone': "+7" + phone_number.val(),
                 'password': $("#password").val()
             };
             //alert(JSON.stringify(jsonform)); //DEBUG
