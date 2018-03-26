@@ -124,7 +124,7 @@ $("#reg_button").click(function () {
         }
 
         else {
-            phone_number.unmask();
+            $("#phone_number").unmask();
 
             var jsonform = {
                 'first_name': $("#first_name").val(),
