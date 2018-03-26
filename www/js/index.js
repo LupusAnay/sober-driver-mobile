@@ -1,61 +1,61 @@
 jQuery(document).ready(function () {
-    $("#phone_number").mask("+7(000)-000-00-00");
-    $("#birthday").mask("00-00-0000");
+    $("#phoneNumber").mask("+7(000)-000-00-00");
+    $("#birthday").mask("0000-00-00");
 
-    $("#phone_number").blur(function () {
+    $("#phoneNumber").blur(function () {
 
         if ($(this).val().length === 17) {
-            $("#phone_number_err").text(' ');
+            $("#phoneNumberErr").text(' ');
             $(this).css({'border': '1px solid #569b44'});
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#phone_number_err").text('Введен не полный номер');
+            $("#phoneNumberErr").text('Введен не полный номер');
         }
     });
 
     $("#birthday").blur(function () {
 
         if ($(this).val().length === 10) {
-            $("#birthday_err").text(' ');
+            $("#birthdayErr").text(' ');
             $(this).css({'border': '1px solid #569b44'});
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#birthday_err").text('Введена не полная дата');
+            $("#birthdayErr").text('Введена не полная дата');
         }
     });
 
-    $("#first_name").blur(function () {
+    $("#firstname").blur(function () {
         if ($(this).val() !== '') {
             var pattern = /^[a-zа-яё]+$/i;
             if (pattern.test($(this).val())) {
                 $(this).css({'border': '1px solid #569b44'});
-                $("#first_name_err").text(' ');
+                $("#firstnameErr").text(' ');
             } else {
                 $(this).css({'border': '1px solid #ff0000'});
-                $("#first_name_err").text('Не верно');
+                $("#firstnameErr").text('Не верно');
             }
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#first_name_err").text('Поле имени не должно быть пустым');
+            $("#firstnameErr").text('Поле имени не должно быть пустым');
         }
     });
-    $("#second_name").blur(function () {
+    $("#secondname").blur(function () {
         if ($(this).val() !== '') {
             var pattern = /^[a-zа-яё]+$/i;
             if (pattern.test($(this).val())) {
                 $(this).css({'border': '1px solid #569b44'});
-                $("#second_name_err").text(' ');
+                $("#secondnameErr").text(' ');
             } else {
                 $(this).css({'border': '1px solid #ff0000'});
-                $("#second_name_err").text('Не верно');
+                $("#secondnameErr").text('Не верно');
             }
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#second_name_err").text('Поле фамилии не должно быть пустым');
+            $("#secondnameErr").text('Поле фамилии не должно быть пустым');
         }
 
     });
@@ -64,7 +64,7 @@ jQuery(document).ready(function () {
             var pattern = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/;
             if (pattern.test($(this).val())) {
                 $(this).css({'border': '1px solid #569b44'});
-                $("#passport_err").text(' ');
+                $("#passwordErr").text(' ');
             } else {
                 $(this).css({'border': '1px solid #ff0000'});
                 $("#passwordErr").text('Не верно');
@@ -72,7 +72,7 @@ jQuery(document).ready(function () {
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#passport_err").text('Поле пароля не должно быть пустым');
+            $("#passwordErr").text('Поле пароля не должно быть пустым');
         }
     });
     $("#passport").blur(function () {
@@ -80,18 +80,18 @@ jQuery(document).ready(function () {
             var pattern = /\d{10}$/;
             if (pattern.test($(this).val())) {
                 $(this).css({'border': '1px solid #569b44'});
-                $("#passport_err").text(' ');
+                $("#passportErr").text(' ');
             } else {
                 $(this).css({'border': '1px solid #ff0000'});
-                $("#passport_err").text('Не верно');
+                $("#passportErr").text('Не верно');
             }
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#passport_err").text('Поле паспорта не должно быть пустым');
+            $("#passportErr").text('Поле паспорта не должно быть пустым');
         }
     });
-    $("#driver_license").blur(function () {
+    $("#driverLicense").blur(function () {
         if ($(this).val() !== '') {
             var pattern = /\d{10}$/;
             if (pattern.test($(this).val())) {
@@ -104,14 +104,14 @@ jQuery(document).ready(function () {
         }
         else {
             $(this).css({'border': '1px solid #ff0000'});
-            $("#driver_license_err").text('Поле водительских прав не должно быть пустым');
+            $("#driverLicenseErr").text('Поле водительских прав не должно быть пустым');
         }
     });
 
 });
 
-$("#reg_button").click(function () {
-    $("#reg_block span").each(function () {
+$("#regButton").click(function () {
+    $("#RegBlock span").each(function () {
         if ($(this).text() !== ' ') {
             alert("Неверные данные");
             return false;
@@ -122,21 +122,22 @@ $("#reg_button").click(function () {
         }
 
         else {
-            $("#phone_number").unmask();
-            $("#birthday").unmask();
+            $("#phoneNumber").unmask();
+
             var jsonform = {
-                'first_name': $("#first_name").text(),
-                'second_name': $("#second_name").text(),
-                'birthday': $("#birthday").text(),
-                'passport': $("#passport").text(),
-                'driver_license': $("#driver_license").text(),
-                'phone': "+"+$("#phone_number").text(),
-                'password': $("#password").text()
+                'first_name': $("#firstname").val(),
+                'second_name': $("#secondname").val(),
+                'birthday': $("#birthday").val(),
+                'passport': $("#passport").val(),
+                'driver_license': $("#driverLicense").val(),
+                'phone': "+7"+$("#phoneNumber").val(),
+                'password': $("#password").val()
             };
-            alert(jsonform); //DEBUG
+            //alert(JSON.stringify(jsonform)); //DEBUG
             var string = JSON.stringify(jsonform);
+            console.log(JSON.stringify(jsonform));
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", 'http://lupusanay.speckod.ru/registration', true);
+            xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
             xhr.send(string);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
@@ -146,7 +147,7 @@ $("#reg_button").click(function () {
                     alert("Введены неверные данные");
                 } else {
                     alert("Ошибка");
-                    alert(xhr.responseText)
+                    alert(xhr.responseText + xhr.status)
                 }
             }
         }
@@ -177,3 +178,4 @@ var app = {
 };
 
 app.initialize();
+

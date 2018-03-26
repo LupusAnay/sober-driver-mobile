@@ -1,3 +1,4 @@
+
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
@@ -20,7 +21,7 @@ body {
     z-index: 99;
 }
 
-.reg_block
+.RegBlock
 {
 
     display: flex;
@@ -31,13 +32,13 @@ body {
     height: 100%;
 
 }
-#reg_button{
+#regButton{
     background: black !important;
     color: lightgray;
 
 
 }
-#phone_number, #password, #reg_button, #driver_license, #first_name, #passport, #birthday, #second_name
+#phoneNumber, #password, #regButton, #driverLicense, #firstname, #passport, #birthday, #secondname
 {
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.7);
@@ -70,3 +71,4 @@ span
     color: white;
     font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
 }
+
