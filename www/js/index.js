@@ -114,17 +114,18 @@ $(document).ready(function () {
 
 $("#reg_button").click(function () {
     $("#reg_block span").each(function () {
-        if ($(this).text() !== ' ') {
-            alert("Неверные данные");
-            return false;
-        }
-        else if (($(this).text() === '') || ($("input:empty").length === '')) {
-            alert("Введите данные");
+        // if ($(this).text() !== ' ') {
+        //     console.log("Неверные данные");
+        //     return false;
+        // }else
+        if (($(this).text() === '') || ($("input:empty").length === '')) {
+            console.log("Введите данные");
             return false;
         }
 
         else {
-            $("#phone_number").unmask();
+            var phone_number = $("#phone_number");
+            phone_number.unmask();
 
             var jsonform = {
                 'first_name': $("#first_name").val(),
@@ -135,7 +136,6 @@ $("#reg_button").click(function () {
                 'phone': "+7" + phone_number.val(),
                 'password': $("#password").val()
             };
-            //alert(JSON.stringify(jsonform)); //DEBUG
             var string = JSON.stringify(jsonform);
             console.log(JSON.stringify(jsonform));
             var xhr = new XMLHttpRequest();
@@ -144,12 +144,13 @@ $("#reg_button").click(function () {
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
                 if (xhr.status === 200) {
-                    alert("Вы успешно зарегестрировались")
+                    console.log("Вы успешно зарегестрировались")
                 } else if (xhr.status === 422) {
-                    alert("Введены неверные данные");
+                    console.log("Введены неверные данные");
+                    console.log(xhr.responseText + xhr.status)
                 } else {
-                    alert("Ошибка");
-                    alert(xhr.responseText + xhr.status)
+                    console.log("Ошибка");
+                    console.log(xhr.responseText + xhr.status)
                 }
             }
         }
