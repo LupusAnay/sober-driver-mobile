@@ -114,16 +114,13 @@ $(document).ready(function () {
 
 $("#reg_button").click(function () {
     $("#reg_block span").each(function () {
-        // if ($(this).text() !== ' ') {
-        //     console.log("Неверные данные");
-        //     return false;
-        // }else
-        if (($(this).text() === '') || ($("input:empty").length === '')) {
+        if ($(this).text() !== ' ') {
+            console.log("Неверные данные");
+            return false;
+        } else if (($(this).text() === '') || ($("input:empty").length === '')) {
             console.log("Введите данные");
             return false;
-        }
-
-        else {
+        } else {
             var phone_number = $("#phone_number");
             phone_number.unmask();
 
@@ -140,6 +137,7 @@ $("#reg_button").click(function () {
             console.log(JSON.stringify(jsonform));
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
+            console.log(string);
             xhr.send(string);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
@@ -155,7 +153,6 @@ $("#reg_button").click(function () {
             }
         }
     });
-
 });
 
 
