@@ -2,7 +2,23 @@ $(document).ready(function () {
     var phone_number = $("#phone_number");
     var birthday = $("#birthday");
     phone_number.mask("+7(000)-000-00-00");
-    birthday.mask("0000-00-00");
+    birthday.mask("0000-00-00"); //загнать все объекты в переменные
+
+    function validate(object, pattern, errField, fieldlenght) { //общая функция для всех валидаций
+        if ($(object).val() !== '') {
+            if (pattern.test($(object).val())) {
+                $(object).css({'border': '1px solid #569b44'});
+                $(errField).text(' ');
+            } else {
+                $(this).css({'border': '1px solid #ff0000'});
+                $(errField).text('Не верно');
+            }
+        }
+        else {
+            $(object).css({'border': '1px solid #ff0000'});
+            $(errField).text('Поле не должно быть пустым');
+        }
+    }
 
     phone_number.blur(function () {
 
@@ -15,6 +31,7 @@ $(document).ready(function () {
             $("#phone_number_err").text('Введен не полный номер');
         }
     });
+
 
     birthday.blur(function () {
 
@@ -110,51 +127,51 @@ $(document).ready(function () {
         }
     });
 
-});
 
-$("#reg_button").click(function () {
-    $("#reg_block span").each(function () {
-        if ($(this).text() !== ' ') {
-            console.log("Неверные данные");
-            return false;
-        } else if (($(this).text() === '') || ($("input:empty").length === '')) {
-            console.log("Введите данные");
-            return false;
-        } else {
-            var phone_number = $("#phone_number");
-            phone_number.unmask();
+    $("#reg_button").click(function () {
+        $("#reg_block span").each(function () { // Поправить, что бы проверялась не каждое отдельно, а все и сразу
+            var phonenumber_unmasked = phone_number.val().replace('(', '').replace(')', '').replace(/\-/g, '');
+            alert(phonenumber_unmasked);
+            if ($(this).text() !== ' ') {
+                console.log("Неверные данные");
+                return false;
+            } else if (($(this).text() === '') || ($("input:empty").length === '')) {
+                console.log("Введите данные");
+                return false;
+            } else {
+                var jsonform = {
+                    'first_name': $("#first_name").val(),
+                    'second_name': $("#second_name").val(),
+                    'birthday': $("#birthday").val(),
+                    'passport': $("#passport").val(),
+                    'driver_license': $("#driver_license").val(),
+                    'phone': phonenumber_unmasked,
+                    'password': $("#password").val() //передавать переменные, а не объекты
+                };
 
-            var jsonform = {
-                'first_name': $("#first_name").val(),
-                'second_name': $("#second_name").val(),
-                'birthday': $("#birthday").val(),
-                'passport': $("#passport").val(),
-                'driver_license': $("#driver_license").val(),
-                'phone': "+7" + phone_number.val(),
-                'password': $("#password").val()
-            };
-            var string = JSON.stringify(jsonform);
-            console.log(JSON.stringify(jsonform));
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
-            console.log(string);
-            xhr.send(string);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState !== 4) return;
-                if (xhr.status === 200) {
-                    console.log("Вы успешно зарегестрировались")
-                } else if (xhr.status === 422) {
-                    console.log("Введены неверные данные");
-                    console.log(xhr.responseText + xhr.status)
-                } else {
-                    console.log("Ошибка");
-                    console.log(xhr.responseText + xhr.status)
-                }
+                var string = JSON.stringify(jsonform);
+                console.log(JSON.stringify(jsonform));
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
+                console.log(string);
+                xhr.send(string);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState !== 4) return;
+                    if (xhr.status === 200) {
+                        console.log("Вы успешно зарегестрировались")
+                    } else if (xhr.status === 422) {
+                        console.log("Введены неверные данные");
+                        console.log(xhr.responseText + xhr.status)
+                    } else {
+                        console.log("Ошибка");
+                        console.log(xhr.responseText + xhr.status)
+                    }
+                };
+                return false; // ????
             }
-        }
+        });
     });
 });
-
 
 var app = {
     // Application Constructor
