@@ -33,7 +33,7 @@ $(document).ready(function () {
     });
 
 
-    function validate(object, pattern, errField, fieldlenght) { //общая функция для всех валидаций
+    function validate(object, pattern, errField, fieldlenght) {
         if ($(object).val() !== '') {
             if (pattern !== 0) {
                 {
@@ -66,7 +66,7 @@ $(document).ready(function () {
 
     $("#reg_button").click(function () {
         var phonenumber_unmasked = phone_number.val().replace('(', '').replace(')', '').replace(/\-/g, '');
-        $("#reg_block span").each(function () { // Поправить, что бы проверялась не каждое отдельно, а все и сразу АААААААААААААА, ПАЧИНИТЕ
+        $("#reg_block span").each(function () {
             if ($(this).text() !== '<3') {
                 test = false;
                 return false;
@@ -88,14 +88,12 @@ $(document).ready(function () {
                 'driver_license' : driverlicense.val(),
                 'phone' : phonenumber_unmasked,
                 'password' : password.val()
-                 //передавать переменные, а не объекты
             };
 
             var string = JSON.stringify(jsonform);
             console.log(JSON.stringify(jsonform));
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
-            //console.log(string);
             xhr.send(string);
             alert(string);
             xhr.onreadystatechange = function () {
