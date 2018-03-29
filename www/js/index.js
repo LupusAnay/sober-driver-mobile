@@ -71,8 +71,7 @@ $(document).ready(function () {
                 test = false;
                 return false;
             }
-            else
-            {
+            else {
                 test = true;
             }
         });
@@ -81,13 +80,13 @@ $(document).ready(function () {
             return false;
         } else {
             var jsonform = {
-                'first_name' : firstname.val(),
-                'second_name' : secondname.val(),
-                'birthday' : birthday.val(),
-                'passport' : passport.val(),
-                'driver_license' : driverlicense.val(),
-                'phone' : phonenumber_unmasked,
-                'password' : password.val()
+                'first_name': firstname.val(),
+                'second_name': secondname.val(),
+                'birthday': birthday.val(),
+                'passport': passport.val(),
+                'driver_license': driverlicense.val(),
+                'phone': phonenumber_unmasked,
+                'password': password.val()
             };
 
             var string = JSON.stringify(jsonform);
