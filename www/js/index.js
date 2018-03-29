@@ -2,16 +2,59 @@ $(document).ready(function () {
     var phone_number = $("#phone_number");
     var birthday = $("#birthday");
     phone_number.mask("+7(000)-000-00-00");
-    birthday.mask("0000-00-00"); //загнать все объекты в переменные
+    birthday.mask("0000-00-00");
+    var firstname = $("#first_name");
+    var secondname = $("#second_name");
+    var password = $("#password");
+    var passport = $("#passport");
+    var driverlicense = $("#driver_license");
+    var test = true;
+
+    phone_number.blur(function () {
+        validate(this, 0, $("#phone_number_err"), 17)
+    });
+    birthday.blur(function () {
+        validate(this, 0, $("#birthday_err"), 10)
+    });
+    firstname.blur(function () {
+        validate(this, /^[a-zа-яё]+$/i, $("#first_name_err"), 0)
+    });
+    secondname.blur(function () {
+        validate(this, /^[a-zа-яё]+$/i, $("#second_name_err"), 0)
+    });
+    password.blur(function () {
+        validate(this, /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/, $("#password_err"), 0)
+    });
+    passport.blur(function () {
+        validate(this, /\d{10}$/, $("#passport_err"), 0)
+    });
+    driverlicense.blur(function () {
+        validate(this, /\d{10}$/, $("#driver_license_err"), 0)
+    });
+
 
     function validate(object, pattern, errField, fieldlenght) { //общая функция для всех валидаций
         if ($(object).val() !== '') {
-            if (pattern.test($(object).val())) {
-                $(object).css({'border': '1px solid #569b44'});
-                $(errField).text(' ');
-            } else {
-                $(this).css({'border': '1px solid #ff0000'});
-                $(errField).text('Не верно');
+            if (pattern !== 0) {
+                {
+                    if (pattern.test($(object).val())) {
+                        $(object).css({'border': '1px solid #569b44'});
+                        $(errField).text('<3'); // Здесь может быть ваша галочка, но нет
+                    } else {
+                        $(object).css({'border': '1px solid #ff0000'});
+                        $(errField).text('Данные не соответствуют валидации');
+                    }
+                }
+            }
+            if (fieldlenght !== 0) {
+                if ($(object).val().length === fieldlenght) {
+                    $(errField).text('<3');
+                    $(object).css({'border': '1px solid #569b44'});
+                }
+                else {
+                    $(object).css({'border': '1px solid #ff0000'});
+                    $(errField).text('Данные не соответствуют необходимой длине');
+                }
             }
         }
         else {
@@ -20,179 +63,58 @@ $(document).ready(function () {
         }
     }
 
-    phone_number.blur(function () {
-
-        if ($(this).val().length === 17) {
-            $("#phone_number_err").text(' ');
-            $(this).css({'border': '1px solid #569b44'});
-        }
-        else {
-            $(this).css({'border': '1px solid #ff0000'});
-            $("#phone_number_err").text('Введен не полный номер');
-        }
-    });
-
-
-    birthday.blur(function () {
-
-        if ($(this).val().length === 10) {
-            $("#birthday_err").text(' ');
-            $(this).css({'border': '1px solid #569b44'});
-        }
-        else {
-            $(this).css({'border': '1px solid #ff0000'});
-            $("#birthday_err").text('Введена не полная дата');
-        }
-    });
-
-    $("#first_name").blur(function () {
-        if ($(this).val() !== '') {
-            var pattern = /^[a-zа-яё]+$/i;
-            if (pattern.test($(this).val())) {
-                $(this).css({'border': '1px solid #569b44'});
-                $("#first_name_err").text(' ');
-            } else {
-                $(this).css({'border': '1px solid #ff0000'});
-                $("#first_name_err").text('Не верно');
-            }
-        }
-        else {
-            $(this).css({'border': '1px solid #ff0000'});
-            $("#first_name_err").text('Поле имени не должно быть пустым');
-        }
-    });
-    $("#second_name").blur(function () {
-        if ($(this).val() !== '') {
-            var pattern = /^[a-zа-яё]+$/i;
-            if (pattern.test($(this).val())) {
-                $(this).css({'border': '1px solid #569b44'});
-                $("#second_name_err").text(' ');
-            } else {
-                $(this).css({'border': '1px solid #ff0000'});
-                $("#second_name_err").text('Не верно');
-            }
-        }
-        else {
-            $(this).css({'border': '1px solid #ff0000'});
-            $("#second_name_err").text('Поле фамилии не должно быть пустым');
-        }
-
-    });
-    $("#password").blur(function () {
-        if ($(this).val() !== '') {
-            var pattern = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/;
-            if (pattern.test($(this).val())) {
-                $(this).css({'border': '1px solid #569b44'});
-                $("#password_err").text(' ');
-            } else {
-                $(this).css({'border': '1px solid #ff0000'});
-                $("#password_err").text('Не верно');
-            }
-        }
-        else {
-            $(this).css({'border': '1px solid #ff0000'});
-            $("#password_err").text('Поле пароля не должно быть пустым');
-        }
-    });
-    $("#passport").blur(function () {
-        if ($(this).val() !== '') {
-            var pattern = /\d{10}$/;
-            if (pattern.test($(this).val())) {
-                $(this).css({'border': '1px solid #569b44'});
-                $("#passport_err").text(' ');
-            } else {
-                $(this).css({'border': '1px solid #ff0000'});
-                $("#passport_err").text('Не верно');
-            }
-        }
-        else {
-            $(this).css({'border': '1px solid #ff0000'});
-            $("#passport_err").text('Поле паспорта не должно быть пустым');
-        }
-    });
-    $("#driver_license").blur(function () {
-        if ($(this).val() !== '') {
-            var pattern = /\d{10}$/;
-            if (pattern.test($(this).val())) {
-                $(this).css({'border': '1px solid #569b44'});
-                $("#driver_license_err").text(' ');
-            } else {
-                $(this).css({'border': '1px solid #ff0000'});
-                $("#driver_license_err").text('Не верно');
-            }
-        }
-        else {
-            $(this).css({'border': '1px solid #ff0000'});
-            $("#driver_license_err").text('Поле водительских прав не должно быть пустым');
-        }
-    });
-
 
     $("#reg_button").click(function () {
-        $("#reg_block span").each(function () { // Поправить, что бы проверялась не каждое отдельно, а все и сразу
-            var phonenumber_unmasked = phone_number.val().replace('(', '').replace(')', '').replace(/\-/g, '');
-            alert(phonenumber_unmasked);
-            if ($(this).text() !== ' ') {
-                console.log("Неверные данные");
+        var phonenumber_unmasked = phone_number.val().replace('(', '').replace(')', '').replace(/\-/g, '');
+        $("#reg_block span").each(function () { // Поправить, что бы проверялась не каждое отдельно, а все и сразу АААААААААААААА, ПАЧИНИТЕ
+            if ($(this).text() !== '<3') {
+                test = false;
                 return false;
-            } else if (($(this).text() === '') || ($("input:empty").length === '')) {
-                console.log("Введите данные");
-                return false;
-            } else {
-                var jsonform = {
-                    'first_name': $("#first_name").val(),
-                    'second_name': $("#second_name").val(),
-                    'birthday': $("#birthday").val(),
-                    'passport': $("#passport").val(),
-                    'driver_license': $("#driver_license").val(),
-                    'phone': phonenumber_unmasked,
-                    'password': $("#password").val() //передавать переменные, а не объекты
-                };
-
-                var string = JSON.stringify(jsonform);
-                console.log(JSON.stringify(jsonform));
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
-                console.log(string);
-                xhr.send(string);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState !== 4) return;
-                    if (xhr.status === 200) {
-                        console.log("Вы успешно зарегестрировались")
-                    } else if (xhr.status === 422) {
-                        console.log("Введены неверные данные");
-                        console.log(xhr.responseText + xhr.status)
-                    } else {
-                        console.log("Ошибка");
-                        console.log(xhr.responseText + xhr.status)
-                    }
-                };
-                return false; // ????
+            }
+            else
+            {
+                test = true;
             }
         });
+        if (test === false) {
+            console.log("Неверные данные");
+            return false;
+        } else {
+            var jsonform = {
+                'first_name' : firstname.val(),
+                'second_name' : secondname.val(),
+                'birthday' : birthday.val(),
+                'passport' : passport.val(),
+                'driver_license' : driverlicense.val(),
+                'phone' : phonenumber_unmasked,
+                'password' : password.val()
+                 //передавать переменные, а не объекты
+            };
+
+            var string = JSON.stringify(jsonform);
+            console.log(JSON.stringify(jsonform));
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
+            //console.log(string);
+            xhr.send(string);
+            alert(string);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState !== 4) return;
+                if (xhr.status === 200) {
+                    console.log("Вы успешно зарегестрировались")
+                } else if (xhr.status === 422) {
+                    console.log("Введены неверные данные");
+                    console.log(xhr.responseText + xhr.status)
+                } else {
+                    console.log("Ошибка");
+                    console.log(xhr.responseText + xhr.status)
+                }
+            };
+
+        }
+
     });
+
 });
 
-var app = {
-    // Application Constructor
-    initialize: function () {
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-    },
-
-    onDeviceReady: function () {
-        this.receivedEvent('deviceready');
-    },
-
-    // Update DOM on a Received Event
-    receivedEvent: function (id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-        console.log('Received Event: ' + id);
-    }
-};
-
-app.initialize();
 
