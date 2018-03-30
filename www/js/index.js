@@ -3,23 +3,25 @@ $(document).ready(function () {
     var birthday = $("#birthday");
     phone_number.mask("+7(000)-000-00-00");
     birthday.mask("0000-00-00");
-    var firstname = $("#first_name");
-    var secondname = $("#second_name");
+    var first_name = $("#first_name");
+    var second_name = $("#second_name");
     var password = $("#password");
     var passport = $("#passport");
-    var driverlicense = $("#driver_license");
+    var driver_license = $("#driver_license");
+    phone_number.error_field = function (error_string) {$("#phone_number_err").text(error_string)};
     var test = true;
 
+    phone_number.regx = 0;
     phone_number.blur(function () {
         validate(this, 0, $("#phone_number_err"), 17)
     });
     birthday.blur(function () {
         validate(this, 0, $("#birthday_err"), 10)
     });
-    firstname.blur(function () {
+    first_name.blur(function () {
         validate(this, /^[a-zа-яё]+$/i, $("#first_name_err"), 0)
     });
-    secondname.blur(function () {
+    second_name.blur(function () {
         validate(this, /^[a-zа-яё]+$/i, $("#second_name_err"), 0)
     });
     password.blur(function () {
@@ -28,7 +30,7 @@ $(document).ready(function () {
     passport.blur(function () {
         validate(this, /\d{10}$/, $("#passport_err"), 0)
     });
-    driverlicense.blur(function () {
+    driver_license.blur(function () {
         validate(this, /\d{10}$/, $("#driver_license_err"), 0)
     });
 
@@ -65,7 +67,8 @@ $(document).ready(function () {
 
 
     $("#reg_button").click(function () {
-        var phonenumber_unmasked = phone_number.val().replace('(', '').replace(')', '').replace(/\-/g, '');
+        var phone_number_unmasked = phone_number.val().replace(/[()-]+/g, '');
+        console.log(phone_number_unmasked);
         $("#reg_block span").each(function () {
             if ($(this).text() !== '<3') {
                 test = false;
@@ -80,12 +83,12 @@ $(document).ready(function () {
             return false;
         } else {
             var jsonform = {
-                'first_name': firstname.val(),
-                'second_name': secondname.val(),
+                'first_name': first_name.val(),
+                'second_name': second_name.val(),
                 'birthday': birthday.val(),
                 'passport': passport.val(),
-                'driver_license': driverlicense.val(),
-                'phone': phonenumber_unmasked,
+                'driver_license': driver_license.val(),
+                'phone': phone_number_unmasked,
                 'password': password.val()
             };
 
@@ -94,7 +97,6 @@ $(document).ready(function () {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
             xhr.send(string);
-            alert(string);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
                 if (xhr.status === 200) {
