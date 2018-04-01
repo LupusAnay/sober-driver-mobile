@@ -65,7 +65,7 @@ $(document).ready(function () {
 
 
     $("#reg_button").click(function () {
-        var phonenumber_unmasked = phone_number.val().replace('(', '').replace(')', '').replace(/\-/g, '');
+        var phonenumber_unmasked = phone_number.val().replace(/[()-]+/g, '');
         $("#reg_block span").each(function () {
             if ($(this).text() !== '<3') {
                 test = false;
