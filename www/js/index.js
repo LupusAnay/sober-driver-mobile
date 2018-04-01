@@ -11,29 +11,29 @@ $(document).ready(function () {
     var test = true;
 
     phone_number.blur(function () {
-        validate(this, 0, $("#phone_number_err"), 17)
+        validate(this, /[0-9+\-)(]{17}$/, $("#phone_number_err"))
     });
     birthday.blur(function () {
-        validate(this, 0, $("#birthday_err"), 10)
+        validate(this, /[0-9+\-]{10}$/, $("#birthday_err"))
     });
     firstname.blur(function () {
-        validate(this, /^[a-zа-яё]+$/i, $("#first_name_err"), 0)
+    validate(this, /^[a-zа-яё]+$/i, $("#first_name_err"))
     });
     secondname.blur(function () {
-        validate(this, /^[a-zа-яё]+$/i, $("#second_name_err"), 0)
+        validate(this, /^[a-zа-яё]+$/i, $("#second_name_err"))
     });
     password.blur(function () {
-        validate(this, /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/, $("#password_err"), 0)
+        validate(this, /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/, $("#password_err"))
     });
     passport.blur(function () {
-        validate(this, /\d{10}$/, $("#passport_err"), 0)
+        validate(this, /\d{10}$/, $("#passport_err"))
     });
     driverlicense.blur(function () {
-        validate(this, /\d{10}$/, $("#driver_license_err"), 0)
+        validate(this, /\d{10}$/, $("#driver_license_err")) //При вызове ф-ии куда возвращает return???:??
     });
 
 
-    function validate(object, pattern, errField, fieldlenght) {
+    function validate(object, pattern, errField) {
         if ($(object).val() !== '') {
             if (pattern !== 0) {
                 {
@@ -44,16 +44,6 @@ $(document).ready(function () {
                         $(object).css({'border': '1px solid #ff0000'});
                         $(errField).text('Данные не соответствуют валидации');
                     }
-                }
-            }
-            if (fieldlenght !== 0) {
-                if ($(object).val().length === fieldlenght) {
-                    $(errField).text('<3');
-                    $(object).css({'border': '1px solid #569b44'});
-                }
-                else {
-                    $(object).css({'border': '1px solid #ff0000'});
-                    $(errField).text('Данные не соответствуют необходимой длине');
                 }
             }
         }
