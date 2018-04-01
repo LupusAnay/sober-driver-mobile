@@ -10,6 +10,9 @@ $(document).ready(function () {
             $('#reg_button').prop('disabled', true)
         }
     });
+    $("#gotoregbutton").click(function () {
+        location.href="index.html"//регистрация
+    })
     $("#reg_button").click(function () {
         var phonenumber_unmasked = phone_number.val().replace(/[()-]+/g, '');
         var jsonform = {
