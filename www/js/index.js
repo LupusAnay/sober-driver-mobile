@@ -11,40 +11,57 @@ $(document).ready(function () {
     phone_number.error_field = function (error_string) {$("#phone_number_err").text(error_string)};
     var test = true;
 
-    phone_number.regx = 0;
+    phone_number.reg_exp = /[0-9+\-)(]{17}$/;
+    phone_number.err_field = $("#phone_number_err");
+    birthday.reg_exp = /[0-9+\-]{10}$/;
+    birthday.err_field = $("#birthday_err");
+    firstname.reg_exp = /^[a-zа-яё]+$/i;
+    firstname.err_field = $("#first_name_err");
+    secondname.reg_exp = /^[a-zа-яё]+$/i;
+    secondname.err_field = $("#second_name_err");
+    password.reg_exp = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/;
+    password.err_field = $("#password_err");
+    passport.reg_exp = /\d{10}$/;
+    passport.err_field = $("#passport_err");
+    driverlicense.reg_exp = /\d{10}$/;
+    driverlicense.err_field = $("#driver_license_err");
+
+
+
     phone_number.blur(function () {
-        validate(this, 0, $("#phone_number_err"), 17)
+        validate(this, /[0-9+\-)(]{17}$/, $("#phone_number_err"))
     });
     birthday.blur(function () {
-        validate(this, 0, $("#birthday_err"), 10)
+        validate(this, /[0-9+\-]{10}$/, $("#birthday_err"))
     });
-    first_name.blur(function () {
-        validate(this, /^[a-zа-яё]+$/i, $("#first_name_err"), 0)
+    firstname.blur(function () {
+        validate(this, /^[a-zа-яё]+$/i, $("#first_name_err"))
     });
-    second_name.blur(function () {
-        validate(this, /^[a-zа-яё]+$/i, $("#second_name_err"), 0)
+    secondname.blur(function () {
+        validate(this, /^[a-zа-яё]+$/i, $("#second_name_err"))
     });
     password.blur(function () {
-        validate(this, /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/, $("#password_err"), 0)
+        validate(this, /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/, $("#password_err"))
     });
     passport.blur(function () {
-        validate(this, /\d{10}$/, $("#passport_err"), 0)
+        validate(this, /\d{10}$/, $("#passport_err"))
     });
-    driver_license.blur(function () {
-        validate(this, /\d{10}$/, $("#driver_license_err"), 0)
+    driverlicense.blur(function () {
+        validate(this, /\d{10}$/, $("#driver_license_err"))
     });
 
 
-    function validate(object, pattern, errField, fieldlenght) {
+    function validate(object, pattern, errField) {
         if ($(object).val() !== '') {
             if (pattern !== 0) {
                 {
                     if (pattern.test($(object).val())) {
                         $(object).css({'border': '1px solid #569b44'});
-                        $(errField).text('<3'); // Здесь может быть ваша галочка, но нет
+                        return true;
                     } else {
                         $(object).css({'border': '1px solid #ff0000'});
                         $(errField).text('Данные не соответствуют валидации');
+                        return false;
                     }
                 }
             }
@@ -62,11 +79,15 @@ $(document).ready(function () {
         else {
             $(object).css({'border': '1px solid #ff0000'});
             $(errField).text('Поле не должно быть пустым');
+            return false;
         }
     }
 
 
     $("#reg_button").click(function () {
+        var phonenumber_unmasked = phone_number.val().replace(/[()-]+/g, '');
+        $("#reg_block input").each(function () {
+            validate(this, this.reg_exp, this.err_field);
         var phone_number_unmasked = phone_number.val().replace(/[()-]+/g, '');
         console.log(phone_number_unmasked);
         $("#reg_block span").each(function () {
@@ -97,6 +118,7 @@ $(document).ready(function () {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
             xhr.send(string);
+            alert(string);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
                 if (xhr.status === 200) {
