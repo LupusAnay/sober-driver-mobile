@@ -21,7 +21,7 @@ body {
     z-index: 99;
 }
 
-.reg_block
+.reg_block, .log_block
 {
 
     display: flex;
@@ -71,4 +71,7 @@ span
     color: white;
     font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
 }
-
+#reg_button:disabled
+{
+    background-color: darkgrey !important;
+}
