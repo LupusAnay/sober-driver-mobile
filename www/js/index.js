@@ -10,6 +10,23 @@ $(document).ready(function () {
     var driverlicense = $("#driver_license");
     var test = true;
 
+    phone_number.reg_exp = /[0-9+\-)(]{17}$/;
+    phone_number.err_field = $("#phone_number_err");
+    birthday.reg_exp = /[0-9+\-]{10}$/;
+    birthday.err_field = $("#birthday_err");
+    firstname.reg_exp = /^[a-zа-яё]+$/i;
+    firstname.err_field = $("#first_name_err");
+    secondname.reg_exp = /^[a-zа-яё]+$/i;
+    secondname.err_field = $("#second_name_err");
+    password.reg_exp = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/;
+    password.err_field = $("#password_err");
+    passport.reg_exp = /\d{10}$/;
+    passport.err_field = $("#passport_err");
+    driverlicense.reg_exp = /\d{10}$/;
+    driverlicense.err_field = $("#driver_license_err");
+
+
+
     phone_number.blur(function () {
         validate(this, /[0-9+\-)(]{17}$/, $("#phone_number_err"))
     });
@@ -17,7 +34,7 @@ $(document).ready(function () {
         validate(this, /[0-9+\-]{10}$/, $("#birthday_err"))
     });
     firstname.blur(function () {
-    validate(this, /^[a-zа-яё]+$/i, $("#first_name_err"))
+        validate(this, /^[a-zа-яё]+$/i, $("#first_name_err"))
     });
     secondname.blur(function () {
         validate(this, /^[a-zа-яё]+$/i, $("#second_name_err"))
@@ -29,7 +46,7 @@ $(document).ready(function () {
         validate(this, /\d{10}$/, $("#passport_err"))
     });
     driverlicense.blur(function () {
-        validate(this, /\d{10}$/, $("#driver_license_err")) //При вызове ф-ии куда возвращает return???:??
+        validate(this, /\d{10}$/, $("#driver_license_err"))
     });
 
 
@@ -39,10 +56,11 @@ $(document).ready(function () {
                 {
                     if (pattern.test($(object).val())) {
                         $(object).css({'border': '1px solid #569b44'});
-                        $(errField).text('<3'); // Здесь может быть ваша галочка, но нет
+                        return true;
                     } else {
                         $(object).css({'border': '1px solid #ff0000'});
                         $(errField).text('Данные не соответствуют валидации');
+                        return false;
                     }
                 }
             }
@@ -50,13 +68,15 @@ $(document).ready(function () {
         else {
             $(object).css({'border': '1px solid #ff0000'});
             $(errField).text('Поле не должно быть пустым');
+            return false;
         }
     }
 
 
     $("#reg_button").click(function () {
         var phonenumber_unmasked = phone_number.val().replace(/[()-]+/g, '');
-        $("#reg_block span").each(function () {
+        $("#reg_block input").each(function () {
+            validate(this, this.reg_exp, this.err_field);
             if ($(this).text() !== '<3') {
                 test = false;
                 return false;
