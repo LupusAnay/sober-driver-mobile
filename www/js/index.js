@@ -32,6 +32,30 @@ $(document).ready(function () {
     input_fields.driver_license.reg_exp = /\d{10}/;
     input_fields.driver_license.err_field = $("#driver_license_err");
 
+    for (var item in input_fields) {
+        var keyup_hanlder = {
+            it: item,
+            fields: input_fields,
+            handler: function () {
+                //console.log("handler");
+                if (this.fields[this.it].val() !== '') {
+                    if (this.fields[this.it].reg_exp.test(this.fields[this.it].val())) {
+                        this.fields[this.it].css({'border': '1px solid #569b44'});
+                        this.fields[this.it].err_field.text('');
+                    } else {
+                        this.fields[this.it].css({'border': '1px solid #ff0000'});
+                        this.fields[this.it].err_field.text('Данные не соответствуют валидации');
+                    }
+                } else {
+                    this.fields[this.it].css({'border': '1px solid #ff0000'});
+                    this.fields[this.it].err_field.text('Поле не должно быть пустым');
+                }
+            }
+        };
+        input_fields[item].on("keyup", $.proxy(keyup_hanlder, "handler"));
+        input_fields[item].on("blur", $.proxy(keyup_hanlder, "handler"));
+    }
+
     $("#reg_button").click(function () {
         var phone_number_unmasked = input_fields.phone_number.val().replace(/[()-]+/g, '');
         var is_validated = true;
