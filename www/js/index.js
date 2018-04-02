@@ -8,8 +8,10 @@ $(document).ready(function () {
         passport: $("#passport"),
         password: $("#password")
     };
-    input_fields.phone_number.mask("+7(000)-000-00-00");
+    input_fields.driver_license.mask("0000000000");
+    input_fields.passport.mask("0000000000");
     input_fields.birthday.mask("0000-00-00");
+    input_fields.phone_number.mask("+7(000)-000-00-00");
 
     input_fields.first_name.reg_exp = /^[A-zА-я]+$/;
     input_fields.first_name.err_field = $("#first_name_err");
