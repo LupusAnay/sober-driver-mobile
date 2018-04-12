@@ -8,7 +8,6 @@ body {
     -webkit-touch-callout: none;
     -webkit-text-size-adjust: none;
     -webkit-user-select: none;
-
     margin: 0px;
     padding: 0px;
     width: 100vw;
@@ -16,7 +15,7 @@ body {
 }
 
 
-#registration, #login, #choose_one_form{
+#registration, #login, #choose_one_form, #order{
 
     width: 75%;
     height: auto;
@@ -24,7 +23,7 @@ body {
 }
 
 
-.reg_block, .log_block, .choose_one {
+#reg_block, #log_block, #choose_one, #order_block  {
 
     display: flex;
     flex-flow: row wrap;
@@ -35,13 +34,13 @@ body {
 
 }
 
-#reg_button, #gotoregbutton, #driver_button, #user_button{
+#reg_button, #gotoregbutton, #driver_button, #user_button, #create_order{
     background: black !important;
     color: lightgray;
 
 }
 
-#phone_number, #password, #gotoregbutton, #reg_button, #driver_license, #first_name, #passport, #birthday, #second_name, #driver_button, #user_button {
+#phone_number, #password, #gotoregbutton, #reg_button, #driver_license, #first_name, #passport, #birthday, #second_name, #driver_button, #user_button, #create_order, #from, #to, #value {
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.7);
     width: 100%;

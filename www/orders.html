@@ -15,24 +15,35 @@
     <!--<script src="../node_modules/jquery-mobile/js/jquery.mobile.js"></script>-->
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/jquery.mask.min.js"></script>
-    <script type="text/javascript" src="js/login.js" async></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAo1YeFoeo60d0fPKy410LI1VlHKssotsk"> </script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    <script type="text/javascript" src="js/orders.js" async></script>
     <title>Sober Driver</title>
 </head>
 
 <body>
+
 <div class="bg"></div>
 
-<div id="log_block">
-    <form id="login">
+<div id="order_block">
+    <form id="order">
+        <input type="text" id="from" placeholder="Откуда">
+
+        <input type="text" id="to" placeholder="Куда">
+
+        <input type="text" id="value" placeholder="Предполагаемая стоимость в рублях">
+        <span id="value_err"></span>
+
+        <input type="text" id="first_name" placeholder="Имя">
+        <span id="first_name_err"></span>
+
         <input type="text" id="phone_number" placeholder="+7(000)-000-00-00" maxlength="11">
         <span id="phone_number_err"></span>
-        <input type="password" id="password" placeholder="Пароль">
-        <input id="reg_button" type="button" value="Войти" disabled>
-        <input type="button"  id="gotoregbutton" value="Стать водителем">
+
+        <input id="create_order" type="button" value="Создать заказ">
     </form>
+
 </div>
-
-
 </body>
 
 </html>
