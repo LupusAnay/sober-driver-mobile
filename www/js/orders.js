@@ -64,14 +64,26 @@ $(document).ready(function () {
             }
             if (is_validated) {
 
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", "https://geocode-maps.yandex.ru/1.x/?format=json&geocode=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0,+%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%B0%D1%8F+%D1%83%D0%BB%D0%B8%D1%86%D0%B0,+%D0%B4%D0%BE%D0%BC+7", true);
-                xhr.send();
-                xhr.onreadystatechange = function () {
-                    parsed=xhr.responseText;
+                var xhrfrom = new XMLHttpRequest();
+                xhrfrom.open("GET", "https://geocode-maps.yandex.ru/1.x/?format=json&geocode=" + from.val(), true);
+                xhrfrom.send();
+                var fromCords, toCords;
+                xhrfrom.onreadystatechange = function () {
+                    if (xhrfrom.readyState !== 4) return;
+                    parsed = JSON.parse(xhrfrom.responseText);
                     console.warn(parsed);
-                    console.log(parsed.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos);
+                    fromCords = parsed.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
                 };
+
+                var xhrto = new XMLHttpRequest();
+                xhrto.open("GET", "https://geocode-maps.yandex.ru/1.x/?format=json&geocode=" + to.val(), true);
+                xhrto.send();
+                xhrto.onreadystatechange = function () {
+                    if (xhrto.readyState !== 4) return;
+                    parsed = JSON.parse(xhrto.responseText);
+                    toCords = parsed.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
+                };
+                console.log(fromCords, toCords);
                 var jsonform = {
                     'from': '1',
                     'to': '1',
@@ -97,8 +109,7 @@ $(document).ready(function () {
                         console.log(xhr.responseText + xhr.status)
                     }
 
-                }
-
+                };
             }
         }
     );
