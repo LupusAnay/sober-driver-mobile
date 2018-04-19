@@ -64,6 +64,7 @@ $(document).ready(function () {
             }
             if (is_validated) {
 
+                var event_counter = 2;
                 var xhrfrom = new XMLHttpRequest();
                 xhrfrom.open("GET", "https://geocode-maps.yandex.ru/1.x/?format=json&geocode=" + from.val(), true);
                 xhrfrom.send();
@@ -73,6 +74,7 @@ $(document).ready(function () {
                     parsed = JSON.parse(xhrfrom.responseText);
                     console.warn(parsed);
                     fromCords = parsed.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
+                    request_ready();
                 };
 
                 var xhrto = new XMLHttpRequest();
@@ -82,34 +84,39 @@ $(document).ready(function () {
                     if (xhrto.readyState !== 4) return;
                     parsed = JSON.parse(xhrto.responseText);
                     toCords = parsed.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos;
-                };
-                console.log(fromCords, toCords);
-                var jsonform = {
-                    'from': '1',
-                    'to': '1',
-                    'value': input_fields.value.val(),
-                    'client_name': input_fields.first_name.val(),
-                    'client_number': phone_number_unmasked
+                    request_ready();
                 };
 
-                var string = JSON.stringify(jsonform);
-                console.log(JSON.stringify(jsonform));
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "http://lupusanay.speckod.ru/addOrder", true);
-                xhr.send(string);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState !== 4) return;
-                    if (xhr.status === 200) {
-                        console.log("Вы успешно добавили заказ")
-                    } else if (xhr.status === 422) {
-                        console.log("Введены неверные данные");
-                        console.log(xhr.responseText + xhr.status)
-                    } else {
-                        console.log("Ошибка");
-                        console.log(xhr.responseText + xhr.status)
-                    }
+                function request_ready() {
+                    if(--event_counter !== 0) return false;
+                    console.log(fromCords, toCords);
+                    var jsonform = {
+                        'from': fromCords,
+                        'to': toCords,
+                        'value': input_fields.value.val(),
+                        'client_name': input_fields.first_name.val(),
+                        'client_number': phone_number_unmasked
+                    };
 
-                };
+                    var string = JSON.stringify(jsonform);
+                    console.log(JSON.stringify(jsonform));
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", "http://lupusanay.speckod.ru/addOrder", true);
+                    xhr.send(string);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState !== 4) return;
+                        if (xhr.status === 200) {
+                            console.log("Вы успешно добавили заказ")
+                        } else if (xhr.status === 422) {
+                            console.log("Введены неверные данные");
+                            console.log(xhr.responseText + xhr.status)
+                        } else {
+                            console.log("Ошибка");
+                            console.log(xhr.responseText + xhr.status)
+                        }
+
+                    };
+                }
             }
         }
     );

@@ -11,8 +11,8 @@ $(document).ready(function () {
         }
     });
     $("#gotoregbutton").click(function () {
-        location.href="registration.html"//регистрация
-    })
+        location.href = "registration.html"//регистрация
+    });
     $("#reg_button").click(function () {
         var phonenumber_unmasked = phone_number.val().replace(/[()-]+/g, '');
         var jsonform = {
