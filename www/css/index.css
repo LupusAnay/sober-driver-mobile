@@ -55,3 +55,24 @@ span {
 #reg_button:disabled {
     background-color: darkgrey !important;
 }
+
+#orders_list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#order_block {
+    margin-top: 5%;
+}
+
+.collapsed_order {
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 95vw;
+    height: auto;
+    margin: 2.5%;
+    border: 1px solid black;
+}

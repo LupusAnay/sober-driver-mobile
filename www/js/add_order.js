@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    var to = $("#to");
-    var from = $("#from");
-    var input_fields = {
+    let to = $("#to");
+    let from = $("#from");
+    let input_fields = {
         first_name: $("#first_name"),
         phone_number: $("#phone_number"),
         value: $("#value")
@@ -17,8 +17,8 @@ $(document).ready(function () {
     input_fields.value.reg_exp = /[0-9]/;
     input_fields.value.err_field = $("#value_err");
 
-    for (var item in input_fields) {
-        var keyup_hanlder = {
+    for (let item in input_fields) {
+        let keyup_hanlder = {
             it: item,
             fields: input_fields,
             handler: function () {
@@ -42,10 +42,10 @@ $(document).ready(function () {
     }
 
     $("#create_order").click(function () {
-            var phone_number_unmasked = input_fields.phone_number.val().replace(/[()-]+/g, '');
-            var is_validated = true;
+            let phone_number_unmasked = input_fields.phone_number.val().replace(/[()-]+/g, '');
+            let is_validated = true;
             console.log("\nButton was clicked, starting validation...");
-            for (var item in input_fields) {
+            for (let item in input_fields) {
                 if (!input_fields[item].reg_exp.test(input_fields[item].val())) {
                     console.log(item, ": \"", input_fields[item].val(), "\" is incorrect");
                     input_fields[item].css({'border': '1px solid #ff0000'});
@@ -64,11 +64,11 @@ $(document).ready(function () {
             }
             if (is_validated) {
 
-                var event_counter = 2;
-                var xhrfrom = new XMLHttpRequest();
+                let event_counter = 2;
+                let xhrfrom = new XMLHttpRequest();
                 xhrfrom.open("GET", "https://geocode-maps.yandex.ru/1.x/?format=json&geocode=" + from.val(), true);
                 xhrfrom.send();
-                var fromCords, toCords;
+                let fromCords, toCords;
                 xhrfrom.onreadystatechange = function () {
                     if (xhrfrom.readyState !== 4) return;
                     parsed = JSON.parse(xhrfrom.responseText);
@@ -77,7 +77,7 @@ $(document).ready(function () {
                     request_ready();
                 };
 
-                var xhrto = new XMLHttpRequest();
+                let xhrto = new XMLHttpRequest();
                 xhrto.open("GET", "https://geocode-maps.yandex.ru/1.x/?format=json&geocode=" + to.val(), true);
                 xhrto.send();
                 xhrto.onreadystatechange = function () {
@@ -90,7 +90,7 @@ $(document).ready(function () {
                 function request_ready() {
                     if (--event_counter !== 0) return false;
                     console.log(fromCords, toCords);
-                    var jsonform = {
+                    let jsonform = {
                         'from': fromCords.replace(" ", ", "),
                         'to': toCords.replace(" ", ", "),
                         'value': input_fields.value.val(),
@@ -98,9 +98,9 @@ $(document).ready(function () {
                         'client_number': phone_number_unmasked
                     };
 
-                    var string = JSON.stringify(jsonform);
+                    let string = JSON.stringify(jsonform);
                     console.log(JSON.stringify(jsonform));
-                    var xhr = new XMLHttpRequest();
+                    let xhr = new XMLHttpRequest();
                     xhr.open("POST", "http://lupusanay.speckod.ru/addOrder", true);
                     xhr.send(string);
                     xhr.onreadystatechange = function () {

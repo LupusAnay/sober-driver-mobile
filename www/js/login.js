@@ -1,6 +1,6 @@
 $(document).ready(function () {
-    var phone_number = $("#phone_number");
-    var password = $("#password");
+    let phone_number = $("#phone_number");
+    let password = $("#password");
     phone_number.mask("+7(000)-000-00-00");
     $("#log_block").keyup(function () {
         if (/[0-9+\-)(]{17}$/.test(phone_number.val()) === true && password.val() !== '') {
@@ -14,14 +14,14 @@ $(document).ready(function () {
         location.href = "registration.html"//регистрация
     });
     $("#reg_button").click(function () {
-        var phonenumber_unmasked = phone_number.val().replace(/[()-]+/g, '');
-        var jsonform = {
+        let phonenumber_unmasked = phone_number.val().replace(/[()-]+/g, '');
+        let jsonform = {
             'phone': phonenumber_unmasked,
             'password': password.val()
         };
-        var string = JSON.stringify(jsonform);
+        let string = JSON.stringify(jsonform);
         console.log(JSON.stringify(jsonform));
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("POST", "http://lupusanay.speckod.ru/login", true);
         xhr.send(string);
         xhr.onreadystatechange = function () {

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var input_fields = {
+    let input_fields = {
         first_name: $("#first_name"),
         second_name: $("#second_name"),
         driver_license: $("#driver_license"),
@@ -34,8 +34,8 @@ $(document).ready(function () {
     input_fields.driver_license.reg_exp = /\d{10}/;
     input_fields.driver_license.err_field = $("#driver_license_err");
 
-    for (var item in input_fields) {
-        var keyup_hanlder = {
+    for (let item in input_fields) {
+        let keyup_hanlder = {
             it: item,
             fields: input_fields,
             handler: function () {
@@ -59,10 +59,10 @@ $(document).ready(function () {
     }
 
     $("#reg_button").click(function () {
-        var phone_number_unmasked = input_fields.phone_number.val().replace(/[()-]+/g, '');
-        var is_validated = true;
+        let phone_number_unmasked = input_fields.phone_number.val().replace(/[()-]+/g, '');
+        let is_validated = true;
         console.log("\nRegister was clicked, starting validation...");
-        for (var item in input_fields) {
+        for (let item in input_fields) {
             if (!input_fields[item].reg_exp.test(input_fields[item].val())) {
                 console.log(item, ": \"", input_fields[item].val(), "\" is incorrect");
                 input_fields[item].css({'border': '1px solid #ff0000'});
@@ -80,7 +80,7 @@ $(document).ready(function () {
             }
         }
         if (is_validated) {
-            var jsonform = {
+            let jsonform = {
                 'first_name': input_fields.first_name.val(),
                 'second_name': input_fields.second_name.val(),
                 'birthday': input_fields.birthday.val(),
@@ -90,9 +90,9 @@ $(document).ready(function () {
                 'password': input_fields.password.val()
             };
 
-            var string = JSON.stringify(jsonform);
+            let string = JSON.stringify(jsonform);
             console.log(JSON.stringify(jsonform));
-            var xhr = new XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
             xhr.open("POST", "http://lupusanay.speckod.ru/registration", true);
             xhr.send(string);
             xhr.onreadystatechange = function () {
