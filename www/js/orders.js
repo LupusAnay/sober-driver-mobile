@@ -91,8 +91,8 @@ $(document).ready(function () {
                     if (--event_counter !== 0) return false;
                     console.log(fromCords, toCords);
                     var jsonform = {
-                        'from': fromCords,
-                        'to': toCords,
+                        'from': fromCords.replace(" ", ", "),
+                        'to': toCords.replace(" ", ", "),
                         'value': input_fields.value.val(),
                         'client_name': input_fields.first_name.val(),
                         'client_number': phone_number_unmasked
@@ -114,7 +114,6 @@ $(document).ready(function () {
                             console.log("Ошибка");
                             console.log(xhr.responseText + xhr.status)
                         }
-
                     };
                 }
             }
