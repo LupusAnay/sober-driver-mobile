@@ -88,7 +88,7 @@ $(document).ready(function () {
                 };
 
                 function request_ready() {
-                    if(--event_counter !== 0) return false;
+                    if (--event_counter !== 0) return false;
                     console.log(fromCords, toCords);
                     var jsonform = {
                         'from': fromCords,
