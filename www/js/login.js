@@ -27,6 +27,8 @@ $(document).ready(function () {
         xhr.onreadystatechange = function () {
             if (xhr.readyState !== 4) return;
             if (xhr.responseText === 'true') {
+                location.href = "list_of_orders.html";
+
                 console.log("Вы успешно вошли")
             } else if (xhr.responseText === 'false') {
                 console.log("Введены неверные данные");

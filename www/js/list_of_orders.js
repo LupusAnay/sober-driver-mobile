@@ -18,24 +18,54 @@ $.get("http://lupusanay.speckod.ru/orders")
             function ready() {
                 if (--event_counter !== 0) return false;
                 let li = $('<li/>')
-                    .appendTo(orders_list)
+                    .appendTo(orders_list);
+                let collapsed_order = $('<div/>')
+                    .appendTo(li)
                     .addClass("collapsed_order");
+                let address_wrapper = $('<div/>')
+                    .addClass("address_wrapper")
+                    .appendTo(collapsed_order);
                 $("<div/>")
                     .text("Откуда: " + from)
                     .addClass("from")
-                    .appendTo(li);
+                    .appendTo(address_wrapper);
                 $("<div/>")
                     .text("Куда: " + to)
                     .addClass("to")
-                    .appendTo(li);
+                    .appendTo(address_wrapper);
                 $("<div/>")
-                    .text("Стоимость: " + value)
-                    .addClass("to")
+                    .text(value + " RUB")
+                    .addClass("value")
+                    .appendTo(collapsed_order);
+                let hidden = $('<div/>')
                     .appendTo(li)
-
+                    .addClass('hidden');
+                let text = $('<div/>')
+                    .appendTo(hidden)
+                    .addClass("text");
+                $('<p/>')
+                    .text(orders[i].date)
+                    .appendTo(text);
+                $('<p/>')
+                    .text(orders[i].client_name)
+                    .appendTo(text);
+                $('<p/>')
+                    .text(orders[i].client_number)
+                    .appendTo(text);
+                $('<button/>')
+                    .text("Принять")
+                    .appendTo(hidden)
+                    .addClass("accept_button");
+                li.click(function (e) {
+                    let hidden = $(this).find('.hidden');
+                    console.log('click');
+                    hidden.css("display") === "none" ? hidden.css("display", "block") : hidden.css("display", "none");
+                })
             }
         });
+
     });
+
 
 function geoDecoder(handler, coordinates) {
     $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates})

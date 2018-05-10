@@ -98,7 +98,8 @@ $(document).ready(function () {
             xhr.onreadystatechange = function () {
                 if (xhr.readyState !== 4) return;
                 if (xhr.status === 200) {
-                    console.log("Вы успешно зарегестрировались")
+                    console.log("Вы успешно зарегестрировались");
+                    location.href = "login.html";
                 } else if (xhr.status === 422) {
                     console.log("Введены неверные данные");
                     console.log(xhr.responseText + xhr.status)
