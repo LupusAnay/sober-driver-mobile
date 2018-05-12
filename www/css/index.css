@@ -2,6 +2,8 @@
 * {
 
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    padding: 0;
+    margin: 0;
 }
 
 body {
@@ -14,26 +16,23 @@ body {
     padding: 0;
 }
 
-#registration, #login, #choose_one_form, #order {
+.form {
     width: 75%;
     height: auto;
     z-index: 99;
 }
 
-#reg_block, #log_block, #choose_one, #order_block {
+.block {
     margin-top: 25%;
+    margin-bottom: 25%;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column;
     justify-content: center;
     align-items: center;
 }
 
-#reg_button, #gotoregbutton, #driver_button, #user_button, #create_order, .accept_button{
-    background: black !important;
-    color: lightgray;
-}
+.button, .fields{
 
-#phone_number, #password, #gotoregbutton, #reg_button, #driver_license, #first_name, #passport, #birthday, #second_name, #driver_button, #user_button, #create_order, #from, #to, #value, .accept_button{
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.7);
     width: 100%;
@@ -41,6 +40,16 @@ body {
     margin: 5px 0 5px 0;
     border: 1px solid black;
     padding: 5px;
+}
+.fields
+{
+    background: white;
+    color: gray;
+}
+.button
+{
+    background: black;
+    color: lightgray;
 }
 
 span {
@@ -52,15 +61,7 @@ span {
     background-color: darkgrey !important;
 }
 
-#orders_list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
 
-#order_block {
-    margin-top: 5%;
-}
 
 .collapsed_order {
     display: flex;

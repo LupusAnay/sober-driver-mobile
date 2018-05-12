@@ -27,11 +27,11 @@ $.get("http://lupusanay.speckod.ru/orders")
                     .appendTo(collapsed_order);
                 $("<div/>")
                     .text("Откуда: " + from)
-                    .addClass("from")
+                    .addClass("fields")
                     .appendTo(address_wrapper);
                 $("<div/>")
                     .text("Куда: " + to)
-                    .addClass("to")
+                    .addClass("fields")
                     .appendTo(address_wrapper);
                 $("<div/>")
                     .text(value + " RUB")
@@ -55,7 +55,7 @@ $.get("http://lupusanay.speckod.ru/orders")
                 $('<button/>')
                     .text("Принять")
                     .appendTo(hidden)
-                    .addClass("accept_button");
+                    .addClass("button");
                 li.click(function (e) {
                     let hidden = $(this).find('.hidden');
                     console.log('click');
