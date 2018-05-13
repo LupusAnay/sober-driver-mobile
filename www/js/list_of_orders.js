@@ -1,3 +1,4 @@
+$("#popup_block").hide();
 $.get("http://lupusanay.speckod.ru/orders")
     .done(function (orders) {
         let orders_list = $("#orders_list");
@@ -55,7 +56,9 @@ $.get("http://lupusanay.speckod.ru/orders")
                 $('<button/>')
                     .text("Принять")
                     .appendTo(hidden)
+                    .attr('id', 'accept')
                     .addClass("button");
+
                 li.click(function (e) {
                     let hidden = $(this).find('.hidden');
                     console.log('click');
@@ -74,3 +77,7 @@ function geoDecoder(handler, coordinates) {
             handler(result);
         });
 }
+
+$("#accept").click(function () {
+    $("#popup_block").show();
+});
