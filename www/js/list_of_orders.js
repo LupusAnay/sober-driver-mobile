@@ -1,7 +1,6 @@
 function start() {
     $.get("http://lupusanay.speckod.ru/orders")
         .done(function (orders) {
-            count = orders.length;
             let orders_list = $("#orders_list");
             $.each(orders, function (i) {
                 let event_counter = 2;
