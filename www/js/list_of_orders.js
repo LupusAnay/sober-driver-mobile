@@ -1,20 +1,5 @@
 $("#popup_block").hide();
-$.get("http://lupusanay.speckod.ru/orders")
-    .done(function (orders) {
-        let orders_list = $("#orders_list");
-        $.each(orders, function (i) {
-            let event_counter = 2;
-            let to;
-            let from;
-            let value = orders[i].value;
-            geoDecoder(function (data) {
-                to = data;
-                ready();
-            }, orders[i].to);
-            geoDecoder(function (data) {
-                from = data;
-                ready();
-            }, orders[i].from);
+$("#popup_content").hide();
 function start() {
     $.get("http://lupusanay.speckod.ru/orders")
         .done(function (orders) {
@@ -73,9 +58,10 @@ function start() {
                     $('<button/>')
                         .text("Принять")
                         .appendTo(hidden)
-                        .addClass("accept_button")
+                        .addClass("button")
                         .click(function () {
-                            location.href = "index.html";
+                            $("#popup_block").show();
+                            $("#popup_content").show();
                         });
                     collapsed_order.click(function (e) {
                         let hidden = $(this).parent().find('.hidden');
@@ -99,6 +85,15 @@ function geoDecoder(handler, coordinates) {
 }
 
 start();
-$("#accept").click(function () {
-    $("#popup_block").show();
+
+$("#popup_block").click(function () {
+    $("#popup_block").hide();
+    $("#popup_content").hide();
 });
+
+$("#access").click(function () {
+    location.href = "login.html"
+});
+
+
+
