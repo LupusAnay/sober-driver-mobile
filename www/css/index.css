@@ -70,7 +70,7 @@ span {
     align-items: center;
 }
 
-#orders_list > li {
+#status, #orders_list > li{
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -93,4 +93,11 @@ span {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+dt{
+    float: left;
+    clear: left;
+}
+dd{
+    float: right;
 }
