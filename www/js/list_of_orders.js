@@ -1,27 +1,21 @@
 function start() {
-    $.get("http://lupusanay.speckod.ru/orders")     //запрос к серверу
-        .done(function (orders) {                   //когда выполнен, где ордерс - результат запроса
+    $.get("http://lupusanay.speckod.ru/orders")
+        .done(function (orders) {
             count = orders.length;
-            let orders_list = $("#orders_list");    //элемент с листом
-            $.each(orders, function (i) {           //для каждого элемента json (результата запорса) будет вызвана функция с индексом этого элемента
-                let event_counter = 2;              //количество ожидаемых событий
+            let orders_list = $("#orders_list");
+            $.each(orders, function (i) {
+                let event_counter = 2;
                 let to;
                 let from;
                 let value = orders[i].value;
-                geoDecoder(function (data) {        //делаем запрос
+                geoDecoder(function (data) {
                     to = data;
                     ready();
                 }, orders[i].to);
-                geoDecoder(function (data) {        //делаем запрос
+                geoDecoder(function (data) {
                     from = data;
                     ready();
                 }, orders[i].from);
-
-                function forDecoder(data) {
-                    console.log(data);
-                }
-
-                geoDecoder(forDecoder, orders[i].from);
 
                 function ready() {
                     if (--event_counter !== 0) return false;
