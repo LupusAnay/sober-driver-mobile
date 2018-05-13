@@ -4,14 +4,22 @@ function start(){
     $.get("http://lupusanay.speckod.ru/orders")
         .done(function (orders) {
             let last_element = orders[orders.length - 1]; //Change it in future
+            let last_element_id = last_element.id;
+            let address = "http://lupusanay.speckod.ru/orders/"+last_element_id;
             let order_status= last_element.status;
             $("#order_status").text(order_status);
+
             if (order_from !== undefined && order_to!==undefined) {
                 return true;
             }
+            $("#cancel").click(function (){
+                $.ajax({type: "DELETE", url: address,
+                    });
+            });
             order_from = last_element.from;
             order_to = last_element.to;
             geoDecoder(order_from, order_to);
+
         });
     setTimeout(function () {
         start();
