@@ -1,11 +1,13 @@
+let popup_block=$("#popup_block");
+let popup_content=$("#popup_content");
+popup_block.hide();
+popup_content.hide();
 start();
 let order_from, order_to;
 function start(){
     $.get("http://lupusanay.speckod.ru/orders")
         .done(function (orders) {
             let last_element = orders[orders.length - 1]; //Change it in future
-            let last_element_id = last_element.id;
-            let address = "http://lupusanay.speckod.ru/orders/"+last_element_id;
             let order_status= last_element.status;
             $("#order_status").text(order_status);
 
@@ -13,8 +15,8 @@ function start(){
                 return true;
             }
             $("#cancel").click(function (){
-                $.ajax({type: "DELETE", url: address,
-                    });
+                popup_block.show();
+                popup_content.show();
             });
             order_from = last_element.from;
             order_to = last_element.to;
@@ -37,6 +39,14 @@ function start(){
                 $("#to_status").append(result_to);
             });
     }
+popup_block.click(function () {
+    popup_block.hide();
+    popup_content.hide();
+});
 
+$("#delete").click(function () {
+    $.ajax({type: "DELETE", url: "http://lupusanay.speckod.ru/orders",
+    });
+});
 
 
