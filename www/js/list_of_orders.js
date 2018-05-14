@@ -1,18 +1,6 @@
 let old_orders = [];
 $("#popup_block").hide();
 $("#popup_content").hide();
-function req() {
-    $.get("http://lupusanay.speckod.ru/orders")
-        .done(function (orders) {
-            let arr1 = toJSON(old_orders);
-            let arr2 = toJSON(orders);
-            let to_add = fromJSON(arr2.filter(x => !arr1.includes(x)));
-            let to_delete = fromJSON(arr1.filter(x => !arr2.includes(x)));
-
-
-        });
-}
-
 function toJSON(array) {
     let arr = [];
     for (let i in array) {
