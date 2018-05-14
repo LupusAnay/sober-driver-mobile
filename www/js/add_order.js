@@ -102,11 +102,13 @@ $(document).ready(function () {
                     console.log(JSON.stringify(jsonform));
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", "http://lupusanay.speckod.ru/addOrder", true);
+                    xhr.withCredentials = true;
                     xhr.send(string);
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState !== 4) return;
                         if (xhr.status === 200) {
-                            console.log("Вы успешно добавили заказ")
+                            console.log("Вы успешно добавили заказ");
+                            location.href = "order_status.html"
                         } else if (xhr.status === 422) {
                             console.log("Введены неверные данные");
                             console.log(xhr.responseText + xhr.status)

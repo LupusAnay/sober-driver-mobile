@@ -5,8 +5,12 @@ popup_content.hide();
 start();
 let order_from, order_to;
 function start(){
-    $.get("http://lupusanay.speckod.ru/orders")
-        .done(function (orders) {
+    $.ajax({type: "GET",
+        url: "http://lupusanay.speckod.ru/orders",
+        xhrFields: {
+            withCredentials: true
+        }
+    }).done(function (orders) {
             let last_element = orders[orders.length - 1]; //Change it in future
             let order_status= last_element.status;
             $("#order_status").text(order_status);
@@ -44,8 +48,14 @@ popup_block.click(function () {
     popup_content.hide();
 });
 
+
+
 $("#delete").click(function () {
-    $.ajax({type: "DELETE", url: "http://lupusanay.speckod.ru/orders",
+    $.ajax({type: "DELETE",
+        url: "http://lupusanay.speckod.ru/orders",
+        xhrFields: {
+            withCredentials: true
+        }
     });
 });
 
