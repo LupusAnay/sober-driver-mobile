@@ -1,6 +1,7 @@
 let old_orders = [];
-$("#popup_block").hide();
-$("#popup_content").hide();
+let popup_block = $("#popup_block");
+let popup_content = $("#popup_content");
+
 function toJSON(array) {
     let arr = [];
     for (let i in array) {
@@ -121,11 +122,16 @@ function draw_order(order) {
     }
 }
 
+
+popup_block.hide();
+popup_content.hide();
+
 start();
 
-$("#popup_block").click(function () {
-    $("#popup_block").hide();
-    $("#popup_content").hide();
+
+popup_block.click(function () {
+    popup_block.hide();
+    popup_content.hide();
 });
 
 $("#access").click(function () {
