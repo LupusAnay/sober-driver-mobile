@@ -30,7 +30,7 @@ body {
     align-items: center;
 }
 
-.button, .fields{
+.button, .fields {
 
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.7);
@@ -40,13 +40,13 @@ body {
     border: 1px solid black;
     padding: 5px;
 }
-.fields
-{
+
+.fields {
     background: white;
     color: gray;
 }
-.button
-{
+
+.button {
     background: black;
     color: lightgray;
 }
@@ -69,7 +69,7 @@ span {
     align-items: center;
 }
 
-#status, #orders_list > li{
+#status, #orders_list > li {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -93,37 +93,42 @@ span {
     flex-direction: row;
     justify-content: space-between;
 }
-dt{
+
+dt {
     float: left;
     clear: left;
 }
-dd{
+
+dd {
     float: right;
 }
 
 .popup_block{
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    overflow:hidden;
-    position:fixed;
-    top:0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: fixed;
+    top: 0px;
 }
-.popup_content
-{
+
+.popup_content {
     width: 80%;
     height: 80px;
     overflow: auto;
     margin: auto;
     position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     padding: 10px;
     border: black 1px solid;
     text-align: center;
     background: darkgray;
 }
-.text
-{
+
+.text {
     font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
 }
 
