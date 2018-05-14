@@ -39,13 +39,14 @@ function start() {
         });
     setTimeout(function () {
         start();
-    }, 10000);
+    }, 30000);
 }
 
 function geoDecoder(handler, coordinates) {
     $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates})
         .done(function (data) {
-            let result = data.response.GeoObjectCollection.featureMember[0].GeoObject.description;
+            let result = data.response.GeoObjectCollection.featureMember[0].GeoObject.description + ", ";
+            result += data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
             handler(result);
         });
 }
@@ -112,11 +113,11 @@ function draw_order(order) {
             .appendTo(hidden)
             .addClass("button")
             .click(function () {
-                location.href = "index.html";
+                popup_block.show();
+                popup_content.show();
             });
         collapsed_order.click(function (e) {
             let hidden = $(this).parent().find('.hidden');
-            console.log('click');
             hidden.css("display") === "none" ? hidden.css("display", "block") : hidden.css("display", "none");
         })
     }
