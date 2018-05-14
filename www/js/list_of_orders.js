@@ -1,5 +1,7 @@
-$("#popup_block").hide();
-$("#popup_content").hide();
+let popup_block = $("#popup_block").hide();
+let popup_content = $("#popup_content").hide();
+popup_block.hide();
+popup_content.hide();
 function start() {
     $.get("http://lupusanay.speckod.ru/orders")
         .done(function (orders) {
@@ -60,8 +62,8 @@ function start() {
                         .appendTo(hidden)
                         .addClass("button")
                         .click(function () {
-                            $("#popup_block").show();
-                            $("#popup_content").show();
+                            popup_block.show();
+                            popup_content.show();
                         });
                     collapsed_order.click(function (e) {
                         let hidden = $(this).parent().find('.hidden');
@@ -86,9 +88,9 @@ function geoDecoder(handler, coordinates) {
 
 start();
 
-$("#popup_block").click(function () {
-    $("#popup_block").hide();
-    $("#popup_content").hide();
+popup_block.click(function () {
+    popup_content.hide();
+    popup_block.hide();
 });
 
 $("#access").click(function () {
