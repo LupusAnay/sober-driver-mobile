@@ -48,7 +48,6 @@ function geoDecoder(coordinates_from, coordinates_to) {
             $("#to_status").append(result_to);
         });
 }
-
 popup_block.click(function () {
     popup_block.hide();
     popup_content.hide();
