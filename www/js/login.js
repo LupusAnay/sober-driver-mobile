@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $.support.cors = true;
     let phone_number = $("#phone_number");
     let password = $("#password");
     phone_number.mask("+7(000)-000-00-00");
