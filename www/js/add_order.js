@@ -110,11 +110,9 @@ $(document).ready(function () {
                             console.log("Вы успешно добавили заказ");
                             location.href = "order_status.html"
                         } else if (xhr.status === 422) {
-                            console.log("Введены неверные данные");
-                            console.log(xhr.responseText + xhr.status)
+                            alert("Введены неверные данные: " + xhr.responseText);
                         } else {
-                            console.log("Ошибка");
-                            console.log(xhr.responseText + xhr.status)
+                            alert("Ошибка: " + xhr.status);
                         }
                     };
                 }

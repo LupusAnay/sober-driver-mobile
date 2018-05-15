@@ -28,14 +28,11 @@ $(document).ready(function () {
             if (xhr.readyState !== 4) return;
             if (xhr.responseText === 'true') {
                 location.href = "list_of_orders.html";
-
                 console.log("Вы успешно вошли")
             } else if (xhr.responseText === 'false') {
-                console.log("Введены неверные данные");
-                console.log(xhr.responseText + xhr.status)
+                alert("Введены неверные данные: " + xhr.responseText);
             } else {
-                console.log("Ошибка");
-                console.log(xhr.responseText + xhr.status)
+                alert("Ошибка: " + xhr.status);
             }
         };
     })
