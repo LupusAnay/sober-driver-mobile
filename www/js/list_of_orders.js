@@ -21,8 +21,13 @@ function fromJSON(array) {
 }
 
 function start() {
-    $.get("http://lupusanay.speckod.ru/orders")
-        .done(function (orders) {
+    $.ajax({
+        type: "GET",
+        url: "http://lupusanay.speckod.ru/orders",
+        xhrFields: {
+            withCredentials: true
+        }
+    }).done(function (orders) {
 
             let arr1 = toJSON(old_orders);
             let arr2 = toJSON(orders);
@@ -136,7 +141,14 @@ popup_block.click(function () {
 });
 
 $("#access").click(function () {
-    location.href = "login.html"
+    $.ajax({
+        type: "PUT",
+        url: "http://lupusanay.speckod.ru/take_order",
+        xhrFields: {
+            withCredentials: true
+        }
+    });
+    location.href = "driver_order_status.html"
 });
 
 

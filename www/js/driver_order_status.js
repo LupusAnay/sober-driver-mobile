@@ -3,7 +3,7 @@ let popup_content = $("#popup_content");
 popup_block.hide();
 popup_content.hide();
 start();
-let order_from, order_to;
+let name, number, order_from, order_to, value;
 
 function start() {
     $.ajax({
@@ -13,21 +13,22 @@ function start() {
             withCredentials: true
         }
     }).done(function (orders) {
-        let last_element = orders[0]; //Change it in future
-        let order_status = last_element.status;
-        $("#order_status").text(order_status);
-
-        if (order_from !== undefined && order_to !== undefined) {
-            return true;
+        if(orders[0]) {
+            let last_element = orders[0]; //Change it in future
+            if (name !== undefined) {
+                return true;
+            }
+            $("#accept_order").click(function () {
+                popup_block.show();
+                popup_content.show();
+            });
+            name = last_element.client_name;
+            number = last_element.client_name;
+            value = last_element.value;
+            order_from = last_element.from;
+            order_to = last_element.to;
+            geoDecoder(order_from, order_to);
         }
-        $("#cancel").click(function () {
-            popup_block.show();
-            popup_content.show();
-        });
-        order_from = last_element.from;
-        order_to = last_element.to;
-        geoDecoder(order_from, order_to);
-
     });
     setTimeout(function () {
         start();
@@ -54,20 +55,14 @@ popup_block.click(function () {
 });
 
 
-$("#delete").click(function () {
+$("#accept").click(function () {
     $.ajax({
-        type: "DELETE",
-        url: "http://lupusanay.speckod.ru/order",
+        type: "GET",
+        url: "http://lupusanay.speckod.ru/driver",
         xhrFields: {
             withCredentials: true
         },
-        statusCode: {
-            200: function () {
-                location.href = "add_order.html"
-            }
-        }
     })
-
 });
 
 
