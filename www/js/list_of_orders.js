@@ -1,6 +1,5 @@
 let old_orders = [];
-let popup_block = $("#popup_block");
-let popup_content = $("#popup_content");
+let order_id;
 
 function toJSON(array) {
     let arr = [];
@@ -118,9 +117,8 @@ function draw_order(order) {
             .appendTo(hidden)
             .addClass("button")
             .click(function () {
-                popup_content.id = li.attr('id');
-                popup_block.show();
-                popup_content.show();
+                order_id = li.attr('id');
+                navigator.notification.confirm("Принять этот заказ?", accept, "Принятие заказа", ["Да", "Нет"]);
             });
         collapsed_order.click(function (e) {
             let hidden = $(this).parent().find('.hidden');
@@ -130,24 +128,32 @@ function draw_order(order) {
 }
 
 
-popup_block.hide();
-popup_content.hide();
-
 start();
 
-
-popup_block.click(function () {
-    popup_block.hide();
-    popup_content.hide();
-});
-
-$("#access").click(function () {
+function accept() {
     $.ajax({
         type: "PUT",
-        url: "http://lupusanay.speckod.ru/take_order/" + popup_content.id,
+        url: "http://lupusanay.speckod.ru/take_order/" + order_id,
         xhrFields: {
             withCredentials: true
         }
     });
     location.href = "driver_order_status.html";
+}
+$(document).bind("backbutton", function () {
+    navigator.notification.confirm("Выйти из аккаунта?", fuck_go_back, "Выйти?", "Все равно выйти");
+
+    function fuck_go_back() {
+        $.ajax({
+            type: "GET",
+            url: "http://lupusanay.speckod.ru/kill",
+            xhrFields: {
+                withCredentials: true
+            }, statusCode: {
+                200: function () {
+                    location.href = "index.html";
+                }
+            }
+        })
+    }
 });

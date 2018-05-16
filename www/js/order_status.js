@@ -34,13 +34,15 @@ function del_order() {
 }
 
 $(document).bind("backbutton", function () {
-    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", fuck_go_back, "Выйти?", "Все равно выйти");
+    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?",  fuck_go_back, "Выйти?", "Да");
 
-    function fuck_go_back() {
-        del_order();
+    function fuck_go_back(button) {
+        if (button === 1) {
+            del_order();
+        }
     }
-});
 
+});
 
 start();
 
