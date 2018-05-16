@@ -1,7 +1,5 @@
 let popup_block = $("#popup_block");
 let popup_content = $("#popup_content");
-popup_block.hide();
-popup_content.hide();
 let order_from, order_to;
 
 function success_function() {
@@ -33,15 +31,8 @@ function del_order() {
     })
 }
 
-$(document).bind("backbutton", function () {
-    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?",  fuck_go_back, "Выйти?", "Да");
-
-    function fuck_go_back(button) {
-        if (button === 1) {
-            del_order();
-        }
-    }
-
+$(document).bind("backbutton", function exit_function() {
+    exit_function();
 });
 
 start();
@@ -61,10 +52,7 @@ function start() {
         if (order_from !== undefined && order_to !== undefined) {
             return true;
         }
-        $("#cancel").click(function () {
-            popup_block.show();
-            popup_content.show();
-        });
+        $("#cancel").click(exit_function);
         order_from = last_element.from;
         order_to = last_element.to;
         geoDecoder(order_from, order_to);
@@ -90,10 +78,6 @@ function geoDecoder(coordinates_from, coordinates_to) {
         });
 }
 
-popup_block.click(function () {
-    popup_block.hide();
-    popup_content.hide();
-});
 
 
 $("#delete").click(function () {
@@ -108,3 +92,12 @@ $("#accept").click(function () {
         },
     })
 });
+function exit_function(e) {
+    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?",  fuck_go_back, "Выйти?", "Да");
+
+    function fuck_go_back(button) {
+        if (button === 1) {
+            del_order();
+        }
+    }
+}
