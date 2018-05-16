@@ -2,8 +2,47 @@ let popup_block = $("#popup_block");
 let popup_content = $("#popup_content");
 popup_block.hide();
 popup_content.hide();
-start();
 let order_from, order_to;
+
+function success_function() {
+    $.ajax({
+        type: "GET",
+        url: "http://lupusanay.speckod.ru/kill",
+        xhrFields: {
+            withCredentials: true
+        }, statusCode: {
+            200: function () {
+                location.href = "index.html";
+            }
+        }
+    })
+}
+
+function del_order() {
+    $.ajax({
+        type: "DELETE",
+        url: "http://lupusanay.speckod.ru/del_order",
+        xhrFields: {
+            withCredentials: true
+        },
+        statusCode: {
+            200: function () {
+                success_function();
+            }
+        }
+    })
+}
+
+document.addEventListener("backbutton", function () {
+    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", fuck_go_back, "Выйти?", "Все равно выйти");
+
+    function fuck_go_back() {
+        del_order();
+    }
+});
+
+
+start();
 
 function start() {
     $.ajax({
@@ -48,6 +87,7 @@ function geoDecoder(coordinates_from, coordinates_to) {
             $("#to_status").append(result_to);
         });
 }
+
 popup_block.click(function () {
     popup_block.hide();
     popup_content.hide();
@@ -55,19 +95,14 @@ popup_block.click(function () {
 
 
 $("#delete").click(function () {
+    del_order();
+});
+$("#accept").click(function () {
     $.ajax({
-        type: "DELETE",
-        url: "http://lupusanay.speckod.ru/order",
+        type: "GET",
+        url: "http://lupusanay.speckod.ru/driver",
         xhrFields: {
             withCredentials: true
         },
-        statusCode: {
-            200: function () {
-                location.href = "add_order.html"
-            }
-        }
     })
-
 });
-
-

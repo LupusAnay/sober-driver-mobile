@@ -3,6 +3,24 @@ let popup_content = $("#popup_content");
 popup_block.hide();
 popup_content.hide();
 
+$(document).bind("backbutton", function () {
+    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", fuck_go_back, "Выйти?", "Все равно выйти");
+
+    function fuck_go_back() {
+        $.ajax({
+            type: "GET",
+            url: "http://lupusanay.speckod.ru/kill",
+            xhrFields: {
+                withCredentials: true
+            }, statusCode: {
+                200: function () {
+                    location.href = "index.html";
+                }
+            }
+        })
+    }
+});
+
 $.ajax({
     type: "GET",
     url: "http://lupusanay.speckod.ru/orders",

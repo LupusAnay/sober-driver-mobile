@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     let input_fields = {
         first_name: $("#first_name"),
         second_name: $("#second_name"),
@@ -110,4 +111,5 @@ $(document).ready(function () {
         }
     });
 });
+
 

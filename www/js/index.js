@@ -5,6 +5,8 @@ $(document).ready(function () {
     $("#driver_button").click(function () {
         location.href = "login.html";
     });
+
+
     // $.get("http://lupusanay.speckod.ru/session")
     //     .done(function (data) {
     //         if(data.logged) {
