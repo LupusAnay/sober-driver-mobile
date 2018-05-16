@@ -33,7 +33,7 @@ function del_order() {
     })
 }
 
-document.addEventListener("backbutton", function () {
+$(document).bind("backbutton", function () {
     navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", fuck_go_back, "Выйти?", "Все равно выйти");
 
     function fuck_go_back() {

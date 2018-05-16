@@ -5,6 +5,9 @@ $(document).ready(function () {
     $("#driver_button").click(function () {
         location.href = "login.html";
     });
+    $(document).bind("backbutton", function () {
+        navigator.device.exitApp();
+    });
 
 
     // $.get("http://lupusanay.speckod.ru/session")
