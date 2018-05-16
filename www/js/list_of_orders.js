@@ -29,19 +29,19 @@ function start() {
         }
     }).done(function (orders) {
 
-            let arr1 = toJSON(old_orders);
-            let arr2 = toJSON(orders);
-            let to_add = fromJSON(arr2.filter(x => !arr1.includes(x)));
-            let to_delete = fromJSON(arr1.filter(x => !arr2.includes(x)));
+        let arr1 = toJSON(old_orders);
+        let arr2 = toJSON(orders);
+        let to_add = fromJSON(arr2.filter(x => !arr1.includes(x)));
+        let to_delete = fromJSON(arr1.filter(x => !arr2.includes(x)));
 
-            $.each(to_add, function (i) {
-                draw_order(to_add[i])
-            });
-            $.each(to_delete, function (i) {
-                delete_order(to_delete[i]);
-            });
-            old_orders = orders;
+        $.each(to_add, function (i) {
+            draw_order(to_add[i])
         });
+        $.each(to_delete, function (i) {
+            delete_order(to_delete[i]);
+        });
+        old_orders = orders;
+    });
     setTimeout(function () {
         start();
     }, 30000);
@@ -118,6 +118,7 @@ function draw_order(order) {
             .appendTo(hidden)
             .addClass("button")
             .click(function () {
+                popup_content.id = li.attr('id');
                 popup_block.show();
                 popup_content.show();
             });
@@ -143,14 +144,10 @@ popup_block.click(function () {
 $("#access").click(function () {
     $.ajax({
         type: "PUT",
-        url: "http://lupusanay.speckod.ru/take_order",
+        url: "http://lupusanay.speckod.ru/take_order/" + popup_content.id,
         xhrFields: {
             withCredentials: true
         }
     });
-    location.href = "driver_order_status.html"
+    location.href = "driver_order_status.html";
 });
-
-
-
-
