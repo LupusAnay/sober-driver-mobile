@@ -1,25 +1,25 @@
-let popup_block = $("#popup_block");
-let popup_content = $("#popup_content");
-popup_block.hide();
-popup_content.hide();
-
 $(document).bind("backbutton", function () {
     navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", fuck_go_back, "Выйти?", "Все равно выйти");
 
-    function fuck_go_back() {
-        $.ajax({
-            type: "GET",
-            url: "http://lupusanay.speckod.ru/kill",
-            xhrFields: {
-                withCredentials: true
-            }, statusCode: {
-                200: function () {
-                    location.href = "index.html";
+    function fuck_go_back(button) {
+        if (button === 1) {
+            $.ajax({
+                type: "GET",
+                url: "http://lupusanay.speckod.ru/kill",
+                xhrFields: {
+                    withCredentials: true
+                }, statusCode: {
+                    200: function () {
+                        location.href = "index.html";
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 });
+
+//TODO Добавить постоянное обновление статуса заказа, обработку изменения статуса
+//TODO (добавить всплывающее окно с уведомлением "водитель отказался от вашего заказа)
 
 $.ajax({
     type: "GET",
@@ -28,46 +28,50 @@ $.ajax({
         withCredentials: true
     }
 }).done(function (orders) {
-    let order = orders[0];
-    $("#accept_order").click(function () {
-        popup_block.show();
-        popup_content.show();
-    });
-    $("#name").text(order.client_name);
-    $("#number").text(order.client_number);
-    $("#value").text(order.value);
-    geoDecoder(order.to, order.from);
-});
+        let order = orders[0];
 
-
-function geoDecoder(coordinates_from, coordinates_to) {
-    $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates_from})
-        .done(function (data_from) {
-            let result_from = data_from.response.GeoObjectCollection.featureMember[0].GeoObject.description + ", ";
-            result_from += data_from.response.GeoObjectCollection.featureMember[0].GeoObject.name;
-            $("#from").text(result_from);
+        $("#accept_order").click(function () {
+            navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", exit, "Подтвердить?", "Подтвердить");
         });
-    $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates_to})
-        .done(function (data_to) {
-            let result_to = data_to.response.GeoObjectCollection.featureMember[0].GeoObject.description + ", ";
-            result_to += data_to.response.GeoObjectCollection.featureMember[0].GeoObject.name;
-            $("#to").text(result_to);
-        });
-}
+        $("#name").text(order.client_name);
+        $("#number").text(order.client_number);
+        $("#value").text(order.value);
 
-popup_block.click(function () {
-    popup_block.hide();
-    popup_content.hide();
-});
+        geoDecoder(function (data) {
+            $("#to").text(data);
+        }, order.to);
+        geoDecoder(function (data) {
+            $("#from").text(data);
+        }, order.from);
 
-$("#accept").click(function () {
-    $.ajax({
-        type: "GET",
-        url: "http://lupusanay.speckod.ru/driver",
-        xhrFields: {
-            withCredentials: true
-        },
-    })
-});
+        function exit(button) {
+            if (button === 1) {
+                $.ajax({
+                    type: "GET",
+                    url: "http://lupusanay.speckod.ru/driver",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                }).done(function (e) {
+                    //TODO Добавить обработку подтверждения заказа
+                })
+            }
+        }
+
+        function geoDecoder(handler, coordinates) {
+            $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates})
+                .done(function (data) {
+                    let result = data.response.GeoObjectCollection.featureMember[0].GeoObject.description + ", ";
+                    result += data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
+                    handler(result);
+                });
+        }
+    }
+);
+
+
+
+
+
 
 

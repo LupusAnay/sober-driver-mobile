@@ -1,3 +1,5 @@
+//TODO сделать рефакторинг кода
+
 $(document).ready(function () {
 
     let input_fields = {

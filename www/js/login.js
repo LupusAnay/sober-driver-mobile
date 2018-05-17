@@ -1,3 +1,5 @@
+//TODO Сделать рефакторинг когда
+
 $(document).ready(function () {
     $.support.cors = true;
     let phone_number = $("#phone_number");

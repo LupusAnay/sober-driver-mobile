@@ -1,3 +1,5 @@
+//TODO Сделать рефакторинг
+
 $(document).ready(function () {
     let to = $("#to");
     let from = $("#from");

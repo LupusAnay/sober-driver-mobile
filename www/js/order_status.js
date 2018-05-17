@@ -1,6 +1,76 @@
-let popup_block = $("#popup_block");
-let popup_content = $("#popup_content");
 let order_from, order_to;
+
+$(document).bind("backbutton", confirmation);
+
+start();
+
+function start() {
+    //TODO Добавить обработку ошибки 404 на сервере, которая возникает в случае отмены заказа
+    $.ajax({
+        type: "GET",
+        url: "http://lupusanay.speckod.ru/orders",
+        xhrFields: {
+            withCredentials: true
+        }
+    }).done(function (orders) {
+        orders = orders[0]; //Change it in future
+        $("#order_status").text(orders.status);
+
+        if (order_from !== undefined && order_to !== undefined) {
+            return true;
+        }
+
+        geoDecoder(function (data) {
+            order_to = data;
+            $("#to_status").text(data);
+        }, orders.to);
+        geoDecoder(function (data) {
+            order_from = data;
+            $("#from_status").text(data);
+        }, orders.from);
+
+        function geoDecoder(handler, coordinates) {
+            $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates})
+                .done(function (data) {
+                    let result = data.response.GeoObjectCollection.featureMember[0].GeoObject.description + ", ";
+                    result += data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
+                    handler(result);
+                });
+        }
+
+    });
+    setTimeout(function () {
+        start();
+    }, 10000);
+}
+
+$("#cancel").click(confirmation);
+
+$("#delete").click(function () {
+    del_order();
+});
+
+
+//TODO Обработать подтверждение заказа
+$("#accept").click(function () {
+    $.ajax({
+        type: "GET",
+        url: "http://lupusanay.speckod.ru/driver",
+        xhrFields: {
+            withCredentials: true
+        },
+    })
+});
+
+function confirmation() {
+    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", pressed, "Выйти?", "Да");
+
+    function pressed(button) {
+        if (button === 1) {
+            del_order();
+        }
+    }
+}
 
 function success_function() {
     $.ajax({
@@ -29,75 +99,4 @@ function del_order() {
             }
         }
     })
-}
-
-$(document).bind("backbutton", function exit_function() {
-    exit_function();
-});
-
-start();
-
-function start() {
-    $.ajax({
-        type: "GET",
-        url: "http://lupusanay.speckod.ru/orders",
-        xhrFields: {
-            withCredentials: true
-        }
-    }).done(function (orders) {
-        let last_element = orders[0]; //Change it in future
-        let order_status = last_element.status;
-        $("#order_status").text(order_status);
-
-        if (order_from !== undefined && order_to !== undefined) {
-            return true;
-        }
-        $("#cancel").click(exit_function);
-        order_from = last_element.from;
-        order_to = last_element.to;
-        geoDecoder(order_from, order_to);
-
-    });
-    setTimeout(function () {
-        start();
-    }, 10000);
-}
-
-function geoDecoder(coordinates_from, coordinates_to) {
-    $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates_from})
-        .done(function (data_from) {
-            let result_from = data_from.response.GeoObjectCollection.featureMember[0].GeoObject.description + ", ";
-            result_from += data_from.response.GeoObjectCollection.featureMember[0].GeoObject.name;
-            $("#from_status").append(result_from);
-        });
-    $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates_to})
-        .done(function (data_to) {
-            let result_to = data_to.response.GeoObjectCollection.featureMember[0].GeoObject.description + ", ";
-            result_to += data_to.response.GeoObjectCollection.featureMember[0].GeoObject.name;
-            $("#to_status").append(result_to);
-        });
-}
-
-
-
-$("#delete").click(function () {
-    del_order();
-});
-$("#accept").click(function () {
-    $.ajax({
-        type: "GET",
-        url: "http://lupusanay.speckod.ru/driver",
-        xhrFields: {
-            withCredentials: true
-        },
-    })
-});
-function exit_function(e) {
-    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?",  fuck_go_back, "Выйти?", "Да");
-
-    function fuck_go_back(button) {
-        if (button === 1) {
-            del_order();
-        }
-    }
 }
