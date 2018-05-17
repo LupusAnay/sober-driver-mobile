@@ -67,6 +67,7 @@ $('#reg_button').click(function () {
             }
         });
     }
+
 });
 
 function validate(item) {
