@@ -131,15 +131,21 @@ function draw_order(order) {
 start();
 
 function accept() {
+    let url = "http://lupusanay.speckod.ru/take_order/" + order_id;
     $.ajax({
         type: "PUT",
-        url: "http://lupusanay.speckod.ru/take_order/" + order_id,
+        url: url,
         xhrFields: {
             withCredentials: true
+        },
+        statusCode: {
+            200: function () {
+                location.href = "driver_order_status.html";
+            }
         }
     });
-    location.href = "driver_order_status.html";
 }
+
 $(document).bind("backbutton", function () {
     navigator.notification.confirm("Выйти из аккаунта?", fuck_go_back, "Выйти?", "Все равно выйти");
 
@@ -149,7 +155,8 @@ $(document).bind("backbutton", function () {
             url: "http://lupusanay.speckod.ru/kill",
             xhrFields: {
                 withCredentials: true
-            }, statusCode: {
+            },
+            statusCode: {
                 200: function () {
                     location.href = "index.html";
                 }
