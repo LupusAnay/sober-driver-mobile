@@ -1,4 +1,5 @@
 let to;
+let client_order_check=false;
 let showed = false;
 let accept_order = $("#accept_order");
 $(document).bind("backbutton", function () {
@@ -31,46 +32,36 @@ function start() {
         xhrFields: {
             withCredentials: true
         },
-        error: function () {
-            (navigator.notification.alert("Заказ удален", function () {
-                location.href = "list_of_orders.html";
-            }, "Заказ был удален", "Ясно"));
-            return false;
+        statusCode: {
+            404:
+                function () {
+                    (navigator.notification.alert("Заказ удален", function () {
+                        location.href = "list_of_orders.html";
+                    }, "Заказ был удален", "Ясно"));
+                },
+            403:
+                function () {
+                    (navigator.notification.alert("Заказ выполнен", function () {
+                        location.href = "list_of_orders.html";
+                    }, "Заказ был выполнен", "Ясно"));
+                }
         }
     }).done(function (orders) {
             let order = orders[0];
+            if (order.status === "complete") {
+                navigator.notification.confirm("Вы выполнили заказ", function () {
+                    location.href = "list_of_orders.html";
+                }, "Заказ выполнен", "Ясно");
+
+            }
             if (order.client_complete_check === "true" && order.driver_complete_check === "false" && !showed) {
                 (navigator.notification.alert("Клиент подтвердил заказ", null, "Клиент подтвердил", "Ясно"));
                 showed = true;
+                client_order_check=true;
             }
-
-            if (to !== undefined) {
-                return true;
-            }
-            $("#name").text(order.client_name);
-            $("#number").text(order.client_number);
-            $("#value").text(order.value);
-
-            geoDecoder(function (data) {
-                to = data;
-                $("#to").text(data);
-            }, order.to);
-            geoDecoder(function (data) {
-                $("#from").text(data);
-            }, order.from);
-
-            accept_order.click(function () {
-                navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", accept, "Подтвердить?", "Подтвердить");
-            });
 
             function accept(button) {
                 if (button === 1) {
-                    // if(orders.client_complete_check ==="true")
-                    // {
-                    //     navigator.notification.alert("Заказ выполнен", function () {
-                    //         location.href="list_of_orders.html";
-                    //     }, "Готово", "Ясно")
-                    // }
                     $.ajax({
                         type: "GET",
                         url: "http://lupusanay.speckod.ru/driver",
@@ -78,7 +69,8 @@ function start() {
                             withCredentials: true
                         },
                     }).done(function () {
-                        if (order.client_complete_check === "false") {
+
+                        if (!client_order_check) {
                             (navigator.notification.alert("Ожидайте пока клиент подтвердит заказ", function () {
                                 accept_order.prop('disabled', true);
                                 accept_order.css('background', 'darkgray');
@@ -99,6 +91,24 @@ function start() {
                         handler(result);
                     });
             }
+
+            if (to !== undefined) {
+                return true;
+            }
+            $("#name").text(order.client_name);
+            $("#number").text(order.client_number);
+            $("#value").text(order.value);
+
+            geoDecoder(function (data) {
+                to = data;
+                $("#to").text(data);
+            }, order.to);
+            geoDecoder(function (data) {
+                $("#from").text(data);
+            }, order.from);
+            accept_order.click(function () {
+                navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", accept, "Подтвердить?", "Подтвердить");
+            });
 
         }
     );

@@ -129,20 +129,22 @@ function draw_order(order) {
 
 
 start();
-function accept() {
-    let url = "http://lupusanay.speckod.ru/take_order/" + order_id;
-    $.ajax({
-        type: "PUT",
-        url: url,
-        xhrFields: {
-            withCredentials: true
-        },
-        statusCode: {
-            200: function () {
-                location.href = "driver_order_status.html";
+function accept(button) {
+    if (button === 1) {
+        let url = "http://lupusanay.speckod.ru/take_order/" + order_id;
+        $.ajax({
+            type: "PUT",
+            url: url,
+            xhrFields: {
+                withCredentials: true
+            },
+            statusCode: {
+                200: function () {
+                    location.href = "driver_order_status.html";
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 $(document).bind("backbutton", function () {
