@@ -1,6 +1,8 @@
 let order_from, order_to, order_status;
-
+let showed = false;
 let order_status_html = $("#order_status");
+
+let accept_order = $("#accept");
 
 $(document).bind("backbutton", confirmation);
 
@@ -16,18 +18,20 @@ function start() {
         }
     }).done(function (orders) {
         orders = orders[0]; //Change it in future
-        if(order_status!==undefined)
-        {
-            if (order_status!==orders.status && orders.status==="ready")
-            {
+
+        if (orders.client_complete_check === "false" && orders.driver_complete_check === "true" && !showed) {
+            (navigator.notification.alert("Водитель подтвердил заказ", null, "Водитель подтвердил", "Ясно"));
+            showed = true;
+        }
+        if (order_status !== undefined) {
+            if (order_status !== orders.status && orders.status === "ready") {
                 navigator.notification.alert("Водитель отказался от вашего заказа", function () {
                     order_status = orders.status;
                     order_status_html.text("Ожидание");
                 }, "Заказ отменен водителем", "Ясно");
 
             }
-            else if(order_status!==orders.status && orders.status==="taken")
-            {
+            else if (order_status !== orders.status && orders.status === "taken") {
                 navigator.notification.alert("Ваш заказ взял водитель", function () {
                     order_status = orders.status;
                     order_status_html.text("Взят водителем");
@@ -36,14 +40,13 @@ function start() {
             }
         }
         else {
-            if (orders.status==="taken") {
+            if (orders.status === "taken") {
                 order_status_html.text("Взят водителем");
-                order_status="taken";
+                order_status = "taken";
             }
-            else if(orders.status==="ready")
-            {
+            else if (orders.status === "ready") {
                 order_status_html.text("Ожидание");
-                order_status="ready";
+                order_status = "ready";
             }
         }
         if (order_from !== undefined && order_to !== undefined) {
@@ -67,6 +70,35 @@ function start() {
                 });
         }
 
+        accept_order.click(function () {
+            navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", accept, "Подтвердить?", "Подтвердить");
+        });
+
+        function accept(button) {
+            if (button === 1) {
+                $.ajax({
+                    type: "GET",
+                    url: "http://lupusanay.speckod.ru/client",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                }).done(function () {
+                    if (orders.driver_complete_check === "false") {
+                        (navigator.notification.alert("Ожидайте пока водитель подтвердит заказ", function () {
+                            accept_order.prop('disabled', true);
+                            accept_order.css('background', 'darkgray');
+                            accept_order.val("Вы уже подтвердили выполнение");
+                        }, "Ожидайте", "Ясно"));
+                    }
+                    else {
+                        navigator.notification.alert("Заказ выполнен", function () {
+                            location.href="index.html";
+                        }, "Готово", "Ясно")
+                    }
+                })
+            }
+        }
+
     });
     setTimeout(function () {
         start();
@@ -81,15 +113,6 @@ $("#delete").click(function () {
 
 
 //TODO Обработать подтверждение заказа
-$("#accept").click(function () {
-    $.ajax({
-        type: "GET",
-        url: "http://lupusanay.speckod.ru/client",
-        xhrFields: {
-            withCredentials: true
-        },
-    })
-});
 
 function confirmation() {
     navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", pressed, "Выйти?", "Да");
@@ -101,20 +124,6 @@ function confirmation() {
     }
 }
 
-function success_function() {
-    $.ajax({
-        type: "GET",
-        url: "http://lupusanay.speckod.ru/kill",
-        xhrFields: {
-            withCredentials: true
-        }, statusCode: {
-            200: function () {
-                location.href = "index.html";
-            }
-        }
-    })
-}
-
 function del_order() {
     $.ajax({
         type: "DELETE",
@@ -124,7 +133,7 @@ function del_order() {
         },
         statusCode: {
             200: function () {
-                success_function();
+                location.href = "index.html";
             }
         }
     })

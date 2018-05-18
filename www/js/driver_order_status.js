@@ -1,4 +1,5 @@
 let to;
+let showed = false;
 let accept_order = $("#accept_order");
 $(document).bind("backbutton", function () {
     navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", fuck_go_back, "Выйти?", "Все равно выйти");
@@ -38,13 +39,11 @@ function start() {
         }
     }).done(function (orders) {
             let order = orders[0];
-            if (order.client_complete_check === "true" && order.driver_complete_check === "false") {
-                (navigator.notification.alert("Клиент подтвердил", null, "Клиент подтвердил заказ", "Ясно"));
-                return false;
+            if (order.client_complete_check === "true" && order.driver_complete_check === "false" && !showed) {
+                (navigator.notification.alert("Клиент подтвердил заказ", null, "Клиент подтвердил", "Ясно"));
+                showed = true;
             }
-            $("#accept_order").click(function () {
-                navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", exit, "Подтвердить?", "Подтвердить");
-            });
+
             if (to !== undefined) {
                 return true;
             }
@@ -60,8 +59,18 @@ function start() {
                 $("#from").text(data);
             }, order.from);
 
-            function exit(button) {
+            accept_order.click(function () {
+                navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", accept, "Подтвердить?", "Подтвердить");
+            });
+
+            function accept(button) {
                 if (button === 1) {
+                    // if(orders.client_complete_check ==="true")
+                    // {
+                    //     navigator.notification.alert("Заказ выполнен", function () {
+                    //         location.href="list_of_orders.html";
+                    //     }, "Готово", "Ясно")
+                    // }
                     $.ajax({
                         type: "GET",
                         url: "http://lupusanay.speckod.ru/driver",
@@ -75,8 +84,9 @@ function start() {
                                 accept_order.css('background', 'darkgray');
                                 accept_order.val("Вы уже подтвердили выполнение");
                             }, "Ожидайте", "Ясно"));
-                            return false;
                         }
+
+
                     })
                 }
             }
