@@ -20,14 +20,12 @@ $("#reg_button").click(function () {
         url: 'http://lupusanay.speckod.ru/login',
         type: 'POST',
         data: JSON.stringify(json_form),
-        statusCode: {
-            200: function () {
-                location.href = 'list_of_orders.html';
-            },
-            422: function (data) {
-                navigator.notification.alert('Произошла ошибка: ' + JSON.stringify(data), null, 'Ошибка', 'Ясно')
-            },
+        success: function () {
+            location.href = 'list_of_orders.html';
         },
+        error: function (data) {
+            navigator.notification.alert(data.responseJSON.what, null, 'Ошибка', 'Ясно')
+        }
     });
 });
 
