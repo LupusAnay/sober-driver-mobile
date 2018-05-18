@@ -1,4 +1,6 @@
-let order_from, order_to;
+let order_from, order_to, order_status;
+
+let order_status_html = $("#order_status");
 
 $(document).bind("backbutton", confirmation);
 
@@ -14,12 +16,39 @@ function start() {
         }
     }).done(function (orders) {
         orders = orders[0]; //Change it in future
-        $("#order_status").text(orders.status);
+        if(order_status!==undefined)
+        {
+            if (order_status!==orders.status && orders.status==="ready")
+            {
+                navigator.notification.alert("Водитель отказался от вашего заказа", function () {
+                    order_status = orders.status;
+                    order_status_html.text("Ожидание");
+                }, "Заказ отменен водителем", "Ясно");
 
+            }
+            else if(order_status!==orders.status && orders.status==="taken")
+            {
+                navigator.notification.alert("Ваш заказ взял водитель", function () {
+                    order_status = orders.status;
+                    order_status_html.text("Взят водителем");
+                }, "Заказ был взят", "Ясно");
+
+            }
+        }
+        else {
+            if (orders.status==="taken") {
+                order_status_html.text("Взят водителем");
+                order_status="taken";
+            }
+            else if(orders.status==="ready")
+            {
+                order_status_html.text("Ожидание");
+                order_status="ready";
+            }
+        }
         if (order_from !== undefined && order_to !== undefined) {
             return true;
         }
-
         geoDecoder(function (data) {
             order_to = data;
             $("#to_status").text(data);
@@ -55,7 +84,7 @@ $("#delete").click(function () {
 $("#accept").click(function () {
     $.ajax({
         type: "GET",
-        url: "http://lupusanay.speckod.ru/driver",
+        url: "http://lupusanay.speckod.ru/client",
         xhrFields: {
             withCredentials: true
         },

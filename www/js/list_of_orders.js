@@ -129,7 +129,6 @@ function draw_order(order) {
 
 
 start();
-
 function accept() {
     let url = "http://lupusanay.speckod.ru/take_order/" + order_id;
     $.ajax({
