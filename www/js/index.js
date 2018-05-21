@@ -9,7 +9,6 @@ $(document).ready(function () {
         navigator.app.exitApp();
         window.close();
     });
-
     $.get("http://lupusanay.speckod.ru/session")
         .done(function (session) {
             if (session.session_type === 'client') {

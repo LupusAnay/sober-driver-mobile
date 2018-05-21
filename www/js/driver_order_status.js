@@ -109,7 +109,11 @@ function start() {
             accept_order.click(function () {
                 navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", accept, "Подтвердить?", "Подтвердить");
             });
-
+            $("#navigator").click(function () {
+                launchnavigator.navigate(order.to, {
+                    start: order.from
+                });
+            })
         }
     );
     setTimeout(function () {

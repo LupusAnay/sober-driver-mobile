@@ -17,34 +17,33 @@ function start() {
             withCredentials: true
         }
     }).done(function (orders) {
-        orders = orders[0]; //Change it in future
-
-        if (orders.client_complete_check === "false" && orders.driver_complete_check === "true" && !showed) {
-            (navigator.notification.alert("Водитель подтвердил заказ", null, "Водитель подтвердил", "Ясно"));
+        let order = orders[0];
+        if (order.client_complete_check === "false" && order.driver_complete_check === "true" && !showed) {
+            navigator.notification.alert("Водитель подтвердил заказ", null, "Водитель подтвердил", "Ясно");
             showed = true;
         }
-        if (order_status !== undefined) {
-            if (order_status !== orders.status && orders.status === "ready") {
+        else if (order_status !== undefined) {
+            if (order_status !== order.status && order.status === "ready") {
                 navigator.notification.alert("Водитель отказался от вашего заказа", function () {
-                    order_status = orders.status;
+                    order_status = order.status;
                     order_status_html.text("Ожидание");
                 }, "Заказ отменен водителем", "Ясно");
 
             }
-            else if (order_status !== orders.status && orders.status === "taken") {
+            if (order_status !== order.status && order.status === "taken") {
                 navigator.notification.alert("Ваш заказ взял водитель", function () {
-                    order_status = orders.status;
+                    order_status = order.status;
                     order_status_html.text("Взят водителем");
                 }, "Заказ был взят", "Ясно");
 
             }
         }
         else {
-            if (orders.status === "taken") {
+            if (order.status === "taken") {
                 order_status_html.text("Взят водителем");
                 order_status = "taken";
             }
-            else if (orders.status === "ready") {
+            if (order.status === "ready") {
                 order_status_html.text("Ожидание");
                 order_status = "ready";
             }
@@ -55,11 +54,11 @@ function start() {
         geoDecoder(function (data) {
             order_to = data;
             $("#to_status").text(data);
-        }, orders.to);
+        }, order.to);
         geoDecoder(function (data) {
             order_from = data;
             $("#from_status").text(data);
-        }, orders.from);
+        }, order.from);
 
         function geoDecoder(handler, coordinates) {
             $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates})
@@ -83,7 +82,7 @@ function start() {
                         withCredentials: true
                     },
                 }).done(function () {
-                    if (orders.driver_complete_check === "false") {
+                    if (order.driver_complete_check === "false") {
                         (navigator.notification.alert("Ожидайте пока водитель подтвердит заказ", function () {
                             accept_order.prop('disabled', true);
                             accept_order.css('background', 'darkgray');
