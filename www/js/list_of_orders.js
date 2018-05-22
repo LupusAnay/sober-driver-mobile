@@ -118,7 +118,7 @@ function draw_order(order) {
             .addClass("button")
             .click(function () {
                 order_id = li.attr('id');
-                navigator.notification.confirm("Принять этот заказ?", accept, "Принятие заказа", ["Да", "Нет"]);
+                navigator.notification.confirm("Принять этот заказ?", accept, "Принятие заказа", "Да, Нет");
             });
         collapsed_order.click(function (e) {
             let hidden = $(this).parent().find('.hidden');
