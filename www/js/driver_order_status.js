@@ -110,8 +110,8 @@ function start() {
                 navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", accept, "Подтвердить?", "Подтвердить");
             });
             $("#navigator").click(function () {
-                launchnavigator.navigate(order.to, {
-                    start: order.from
+                launchnavigator.navigate(order.to.split(", ").reverse().toString(), {
+                    start: order.from.split(", ").reverse().toString()
                 });
             })
         }

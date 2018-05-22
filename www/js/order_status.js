@@ -18,6 +18,32 @@ function start() {
         }
     }).done(function (orders) {
         let order = orders[0];
+
+        function accept(button) {
+            if (button === 1) {
+                $.ajax({
+                    type: "GET",
+                    url: "http://lupusanay.speckod.ru/client",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                }).done(function () {
+                    if (order.driver_complete_check === "false") {
+                        (navigator.notification.alert("Ожидайте пока водитель подтвердит заказ", function () {
+                            accept_order.prop('disabled', true);
+                            accept_order.css('background', 'darkgray');
+                            accept_order.val("Вы уже подтвердили выполнение");
+                        }, "Ожидайте", "Ясно"));
+                    }
+                    else {
+                        navigator.notification.alert("Заказ выполнен", function () {
+                            location.href = "index.html";
+                        }, "Готово", "Ясно")
+                    }
+                })
+            }
+        }
+
         if (order.client_complete_check === "false" && order.driver_complete_check === "true" && !showed) {
             navigator.notification.alert("Водитель подтвердил заказ", null, "Водитель подтвердил", "Ясно");
             showed = true;
@@ -38,7 +64,14 @@ function start() {
 
             }
         }
-        else {
+        else if (order.status === "complete")
+        {
+            navigator.notification.alert("Заказ был выполнен", function () {
+                location.href="index.html"
+            }, "Заказ был выполнен", "Ясно");
+        }
+        else
+        {
             if (order.status === "taken") {
                 order_status_html.text("Взят водителем");
                 order_status = "taken";
@@ -72,31 +105,6 @@ function start() {
         accept_order.click(function () {
             navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", accept, "Подтвердить?", "Подтвердить");
         });
-
-        function accept(button) {
-            if (button === 1) {
-                $.ajax({
-                    type: "GET",
-                    url: "http://lupusanay.speckod.ru/client",
-                    xhrFields: {
-                        withCredentials: true
-                    },
-                }).done(function () {
-                    if (order.driver_complete_check === "false") {
-                        (navigator.notification.alert("Ожидайте пока водитель подтвердит заказ", function () {
-                            accept_order.prop('disabled', true);
-                            accept_order.css('background', 'darkgray');
-                            accept_order.val("Вы уже подтвердили выполнение");
-                        }, "Ожидайте", "Ясно"));
-                    }
-                    else {
-                        navigator.notification.alert("Заказ выполнен", function () {
-                            location.href="index.html";
-                        }, "Готово", "Ясно")
-                    }
-                })
-            }
-        }
 
     });
     setTimeout(function () {
