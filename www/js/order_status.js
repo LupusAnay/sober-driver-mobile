@@ -14,52 +14,52 @@ function start() {
         url: "http://lupusanay.speckod.ru/orders",
         xhrFields: {
             withCredentials: true
-        }
-    }).done(function (orders) {
-        let order = orders[0];
-        if (!current_order_status) { //Если поле пустое, то вводим статус и данные в поле
-            order_status_html.text(translate(order.status));
-            current_order_status = order.status;
-            geoDecoder(function (data) {
-                order_to = data;
-                $("#to_status").text(data);
-            }, order.to);
-            geoDecoder(function (data) {
-                order_from = data;
-                $("#from_status").text(data);
-            }, order.from);
-        }
+        }, statusCode: {
+            200: function (orders) {
+                let order = orders[0];
+                if (!current_order_status) { //Если поле пустое, то вводим статус и данные в поле
+                    order_status_html.text(translate(order.status));
+                    current_order_status = order.status;
+                    geoDecoder(function (data) {
+                        order_to = data;
+                        $("#to_status").text(data);
+                    }, order.to);
+                    geoDecoder(function (data) {
+                        order_from = data;
+                        $("#from_status").text(data);
+                    }, order.from);
+                }
 
-        if (current_order_status !== order.status && order.status === "taken") { //Если статус изменился на taken
-            navigator.notification.alert("Водитель взял ваш заказ", function () {
-                order_status_html.text(translate(order.status));
-                current_order_status = order.status;
-            }, "Ожидайте", "Ясно");
-        }
+                else if (current_order_status !== order.status && order.status === "taken") { //Если статус изменился на taken
+                    navigator.notification.alert("Водитель взял ваш заказ", function () {
+                        order_status_html.text(translate(order.status));
+                        current_order_status = order.status;
+                    }, "Ожидайте", "Ясно");
+                }
 
-        if (current_order_status !== order.status && order.status === "ready") { //Если статус изменился на ready
-            navigator.notification.alert("Водитель отказался от заказа", function () {
-                order_status_html.text(translate(order.status));
-                current_order_status = order.status;
-            }, "Отказ", "Ясно");
-        }
+                else if (current_order_status !== order.status && order.status === "ready") { //Если статус изменился на ready
+                    navigator.notification.alert("Водитель отказался от заказа", function () {
+                        order_status_html.text(translate(order.status));
+                        current_order_status = order.status;
+                    }, "Отказ", "Ясно");
+                }
 
-        if (order.driver_complete_check === "true" && order.client_complete_check === "false" && !showed) //Если водитель подтвердил заказ, а клиент нет
-        {
-            navigator.notification.alert("Водитель подтвердил заказ", null, "Водитель подтвердил", "Ясно");
-            showed = true;
-        }
+                else if (order.driver_complete_check === "true" && order.client_complete_check === "false" && !showed) //Если водитель подтвердил заказ, а клиент нет
+                {
+                    navigator.notification.alert("Водитель подтвердил заказ", null, "Водитель подтвердил", "Ясно");
+                    showed = true;
+                }
 
-        if (order.driver_complete_check === "true" && order.client_complete_check === "true") //Если и клиент и водитель подтвердили заказ
-        {
-            navigator.notification.alert("Заказ выпонен", function () {
-                location.href = "index.html";
-            }, "Заказ выполнен", "Ясно");
+                setTimeout(function () {
+                    start();
+                }, 10000);
+            },
+            403: function () {
+                navigator.notification.alert("Заказ выпонен", function () {
+                    kill()
+                }, "Заказ выполнен", "Ясно");
+            }
         }
-
-        setTimeout(function () {
-            start();
-        }, 10000);
     });
 }
 
@@ -90,17 +90,7 @@ function accept(button) {
                 }
                 if (order.driver_complete_check === "true") {
                     navigator.notification.alert("Заказ выполнен", function () {
-                        $.ajax({
-                            type: "GET",
-                            url: "http://lupusanay.speckod.ru/kill",
-                            xhrFields: {
-                                withCredentials: true
-                            }, statusCode: {
-                                200: function () {
-                                    location.href = "index.html";
-                                }
-                            }
-                        })
+                        kill();
                     }, "Заказ выполнен", "Ясно");
                 }
 
@@ -121,7 +111,7 @@ function geoDecoder(handler, coordinates) {
 
 accept_order.click(function () {
     navigator.notification.confirm("Вы уверены, что хотите подтвердить выполнение заказа", accept, "Подтвердить?", "Подтвердить");
-})
+});
 
 
 $("#cancel").click(confirmation);
@@ -155,4 +145,17 @@ function translate(status) //Перевод для полученных стат
         return ("Взят водителем");
     else if (status === "complete")
         return ("Выполнен");
+}
+function kill() {
+    $.ajax({
+        type: "GET",
+        url: "http://lupusanay.speckod.ru/kill",
+        xhrFields: {
+            withCredentials: true
+        }, statusCode: {
+            200: function () {
+                location.href = "index.html";
+            }
+        }
+    })
 }
