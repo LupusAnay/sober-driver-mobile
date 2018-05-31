@@ -1,50 +1,61 @@
+html {
+    background: url("../img/taxi.jpg") no-repeat  100% bottom fixed;
+    background-size: cover;
 
+
+}
 * {
-
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+    padding: 0;
+    margin: 0;
+    height: 100%;
+
 }
 
 body {
-    background: url("../img/taxi.jpg") no-repeat center center fixed;
-    background-size: 100vh auto;
     -webkit-touch-callout: none;
     -webkit-text-size-adjust: none;
     -webkit-user-select: none;
-    margin: 0px;
-    padding: 0px;
+    padding: 0;
 }
 
-
-#registration, #login, #choose_one_form, #order{
-
+.form {
     width: 75%;
     height: auto;
     z-index: 99;
 }
 
-
-#reg_block, #log_block, #choose_one, #order_block  {
-    margin-top: 25%;
+.block {
+    height: 100%;
+    padding: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
-#reg_button, #gotoregbutton, #driver_button, #user_button, #create_order{
-    background: black !important;
-    color: lightgray;
+.button, .fields {
 
-}
-
-#phone_number, #password, #gotoregbutton, #reg_button, #driver_license, #first_name, #passport, #birthday, #second_name, #driver_button, #user_button, #create_order, #from, #to, #value {
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.7);
     width: 100%;
     height: 40px;
-    margin: 5px 0px 5px 0px;
+    margin: 5px 0 5px 0;
     border: 1px solid black;
     padding: 5px;
+}
+
+.fields {
+    background: white;
+    color: gray;
+}
+
+.button {
+    background: black;
+    color: lightgray;
 }
 
 span {
@@ -55,3 +66,74 @@ span {
 #reg_button:disabled {
     background-color: darkgrey !important;
 }
+
+
+
+.collapsed_order {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#status, #orders_list > li {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 95vw;
+    height: auto;
+    margin: 10px;
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.hidden {
+    display: none;
+    overflow: hidden;
+}
+
+.hidden > .text {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+dt {
+    float: left;
+    clear: left;
+}
+
+dd {
+    float: right;
+}
+
+.popup_block{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: fixed;
+    top: 0px;
+}
+
+.popup_content {
+    width: 80%;
+    height: 80px;
+    overflow: auto;
+
+    position: fixed;
+
+    padding: 10px;
+    border: black 1px solid;
+    text-align: center;
+    background: darkgray;
+}
+
+.text {
+    font-family: "Helvetica Neue Light", "Lucida Grande", "Calibri", "Arial", sans-serif;
+}
+
+

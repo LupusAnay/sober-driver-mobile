@@ -1,4 +1,4 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -14,32 +14,32 @@
           height=device-height,
           target-densitydpi=device-dpi">
     <meta http-equiv="Content-Security-Policy"
-          content="
-          default-src *;
+          content="default-src *;
           img-src * 'self' data: http:;
           script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
           style-src  'self' 'unsafe-inline' *">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <script src="js/lib/jquery.min.js"></script>
-    <script src="js/lib/jquery.mask.min.js"></script>
+    <script type="text/javascript" src="js/driver_order_status.js" async></script>
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" src="js/login.js" async></script>
-    <script type="text/javascript" src="js/center.js" async></script>
     <title>Sober Driver</title>
 </head>
-
 <body>
-<div id="log_block" class="block">
-    <form id="login" class="form">
-        <input type="tel" id="phone_number" class="fields" placeholder="+7(000)-000-00-00" maxlength="11">
-        <span id="phone_number_err"></span>
-        <input type="password" id="password" class="fields" placeholder="Пароль">
-        <input id="reg_button" type="button" class="button" value="Войти" disabled>
-        <input type="button" id="gotoregbutton" class="button" value="Стать водителем">
-    </form>
+<div id="status">
+    <dl>
+        <dt>Имя:</dt>
+        <dd id="name"></dd>
+        <dt>Номер:</dt>
+        <dd id="number"></dd>
+        <dt>Откуда:</dt>
+        <dd id="from"></dd>
+        <dt>Куда:</dt>
+        <dd id="to"></dd>
+        <dt>Цена:</dt>
+        <dd id="value"></dd>
+    </dl>
+    <input id="accept_order" class="button" type="button" value="Подтвердить выполнение заказа">
+    <input id="navigator" class="button" type="button" value="Открыть на навигаторе">
 </div>
-
-
 </body>
-
 </html>
