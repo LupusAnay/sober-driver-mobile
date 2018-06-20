@@ -1,11 +1,11 @@
 let to;
-let client_order_check=false;
+let client_order_check = false;
 let showed = false;
 let accept_order = $("#accept_order");
 $(document).bind("backbutton", function () {
-    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", fuck_go_back, "Выйти?", "Все равно выйти");
+    navigator.notification.confirm("Ваш заказ будет отменен, все равно выйти?", go_back, "Выйти?", "Все равно выйти");
 
-    function fuck_go_back(button) {
+    function go_back(button) {
         if (button === 1) {
             $.ajax({
                 type: "GET",
@@ -39,12 +39,6 @@ function start() {
                         location.href = "list_of_orders.html";
                     }, "Заказ был удален", "Ясно"));
                 },
-            403:
-                function () {
-                    (navigator.notification.alert("Заказ выполнен", function () {
-                        location.href = "list_of_orders.html";
-                    }, "Заказ был выполнен", "Ясно"));
-                }
         }
     }).done(function (orders) {
             let order = orders[0];
@@ -57,31 +51,9 @@ function start() {
             if (order.client_complete_check === "true" && order.driver_complete_check === "false" && !showed) {
                 (navigator.notification.alert("Клиент подтвердил заказ", null, "Клиент подтвердил", "Ясно"));
                 showed = true;
-                client_order_check=true;
+                client_order_check = true;
             }
 
-            function accept(button) {
-                if (button === 1) {
-                    $.ajax({
-                        type: "GET",
-                        url: "http://lupusanay.speckod.ru/driver",
-                        xhrFields: {
-                            withCredentials: true
-                        },
-                    }).done(function () {
-
-                        if (!client_order_check) {
-                            (navigator.notification.alert("Ожидайте пока клиент подтвердит заказ", function () {
-                                accept_order.prop('disabled', true);
-                                accept_order.css('background', 'darkgray');
-                                accept_order.val("Вы уже подтвердили выполнение");
-                            }, "Ожидайте", "Ясно"));
-                        }
-
-
-                    })
-                }
-            }
 
             function geoDecoder(handler, coordinates) {
                 $.get("https://geocode-maps.yandex.ru/1.x/", {format: "json", geocode: coordinates})
@@ -121,6 +93,41 @@ function start() {
     }, 10000);
 }
 
+function accept(button) {
+    if (button === 1) {
+        $.ajax({
+            type: "GET",
+            url: "http://lupusanay.speckod.ru/orders",
+            xhrFields: {
+                withCredentials: true
+            }
+        }).done(function (orders) {
+            $.ajax({
+                type: "GET",
+                url: "http://lupusanay.speckod.ru/driver",
+                xhrFields: {
+                    withCredentials: true
+                },
+            }).done(function () {
+                let order = orders[0];
+                if (order.client_complete_check === "false") {
+                    navigator.notification.alert("Ожидайте подтверждения клиентом", function () {
+                        accept_order.prop('disabled', true);
+                        accept_order.css('background', 'darkgray');
+                        accept_order.val("Вы уже подтвердили выполнение");
+                    }, "Ожидайте клиента", "Ясно");
+
+                }
+                if (order.client_complete_check === "true") {
+                    navigator.notification.alert("Заказ выполнен", function () {
+                        location.href="list_of_orders.html";
+                    }, "Заказ выполнен", "Ясно");
+                }
+
+            })
+        })
+    }
+}
 
 
 

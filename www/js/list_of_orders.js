@@ -1,6 +1,12 @@
 let old_orders = [];
 let order_id;
-
+$.ajax({
+    type: "GET", //kostil
+    url: "http://lupusanay.speckod.ru/orders",
+    xhrFields: {
+        withCredentials: true
+    }
+}).done(function (orders) {});
 function toJSON(array) {
     let arr = [];
     for (let i in array) {
@@ -148,9 +154,10 @@ function accept(button) {
 }
 
 $(document).bind("backbutton", function () {
-    navigator.notification.confirm("Выйти из аккаунта?", fuck_go_back, "Выйти?", "Все равно выйти");
+    navigator.notification.confirm("Выйти из аккаунта?", go_back, "Выйти?", "Все равно выйти");
 
-    function fuck_go_back() {
+    function go_back(button) {
+        if (button === 1)
         $.ajax({
             type: "GET",
             url: "http://lupusanay.speckod.ru/kill",
