@@ -63,6 +63,7 @@ function start() {
     });
 }
 
+
 function accept(button) {
     if (button === 1) {
         $.ajax({
